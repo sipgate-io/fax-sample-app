@@ -7,16 +7,36 @@ import {
   TouchableOpacity,
 } from "react-native";
 import FileImage from "./images/FileImage";
+import * as DocumentPicker from "expo-document-picker";
+import { DocumentResult } from "expo-document-picker";
 
-export interface Props {
-  onPress?: (e: NativeSyntheticEvent<NativeTouchEvent>) => void;
+export interface PickedFile {
+  name: string;
+  size: number;
+  uri: string;
+  lastModified?: number;
+  file?: File;
+  output?: FileList | null;
 }
 
-const FileChooser = ({ onPress }: Props) => {
+export interface Props {
+  onPress?: (e: PickedFile) => void;
+  file?: PickedFile;
+}
+
+const FileChooser = ({ file, onPress }: Props) => {
+  const onPressInner = () => {
+    const options = { type: "application/pdf" };
+    DocumentPicker.getDocumentAsync(options).then((result) => {
+      if (result.type === "success" && onPress) onPress(result);
+    });
+  };
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.touchable]}>
+    <TouchableOpacity onPress={onPressInner} style={[styles.touchable]}>
       <FileImage />
-      <Text style={styles.text}>Datei auswählen</Text>
+      <Text numberOfLines={1} style={styles.text}>
+        {file ? file.name : "Datei auswählen"}
+      </Text>
     </TouchableOpacity>
   );
 };

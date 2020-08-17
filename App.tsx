@@ -6,7 +6,8 @@ import { useFonts } from "expo-font";
 import Logo from "./components/images/Logo";
 import Input from "./components/Input";
 import SubmitButton from "./components/SubmitButton";
-import FileInput from "./components/FileInput";
+import FileInput, { PickedFile } from "./components/FileInput";
+import { DocumentResult } from "expo-document-picker";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -14,17 +15,16 @@ export default function App() {
     "Px-Grotesk-Bold": require("./assets/fonts/Px Grotesk Bold.ttf"),
   });
 
-  const [file, setFile] = useState<{} | null>(null);
+  const [file, setFile] = useState<PickedFile | null>(null);
 
   if (!fontsLoaded) {
     return null;
   }
 
-  const choosePdf = () => {
-    setFile({});
+  const submit = () => {
+    alert("submitted");
+    setFile(null);
   };
-
-  const submit = () => alert("submitted");
 
   return (
     <View style={styles.container}>
@@ -41,7 +41,7 @@ export default function App() {
         <Input />
       </View>
       <View style={styles.buttons}>
-        <FileInput onPress={choosePdf} />
+        <FileInput onPress={setFile} file={file ?? undefined} />
         <SubmitButton
           style={{ marginTop: "2rem" }}
           disabled={file === null}
