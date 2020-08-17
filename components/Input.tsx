@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "#6a6a6a",
     borderBottomWidth: 1.5,
-    padding: "0.5rem",
+    padding: 8,
     fontFamily: "Px-Grotesk",
   },
 });

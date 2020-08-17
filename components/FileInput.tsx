@@ -1,14 +1,6 @@
 import React from "react";
-import {
-  Text,
-  StyleSheet,
-  NativeSyntheticEvent,
-  NativeTouchEvent,
-  TouchableOpacity,
-} from "react-native";
-import FileImage from "./images/FileImage";
+import { Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
-import { DocumentResult } from "expo-document-picker";
 
 export interface PickedFile {
   name: string;
@@ -32,8 +24,8 @@ const FileChooser = ({ file, onPress }: Props) => {
     });
   };
   return (
-    <TouchableOpacity onPress={onPressInner} style={[styles.touchable]}>
-      <FileImage />
+    <TouchableOpacity onPress={onPressInner} style={styles.touchable}>
+      <Image style={styles.img} source={require("../assets/fileIcon.png")} />
       <Text numberOfLines={1} style={styles.text}>
         {file ? file.name : "Datei auswählen"}
       </Text>
@@ -44,9 +36,9 @@ const FileChooser = ({ file, onPress }: Props) => {
 const styles = StyleSheet.create({
   touchable: {
     borderRadius: 100,
-    padding: "0.6rem",
+    padding: 10,
     borderWidth: 2,
-    width: "11rem",
+    width: 11 * 16,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -55,6 +47,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: "Px-Grotesk",
+  },
+  img: {
+    width: 16,
+    height: 16,
+    resizeMode: "contain",
   },
 });
 

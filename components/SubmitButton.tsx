@@ -35,8 +35,8 @@ const SubmitButton = ({ onPress, style, disabled }: Props) => {
 const styles = StyleSheet.create({
   touchable: {
     borderRadius: 100,
-    padding: "0.8rem",
-    width: "11rem",
+    padding: 12,
+    width: 11 * 16,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

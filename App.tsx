@@ -1,18 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Image, Text, View, ImageBackground } from "react-native";
 import { useFonts } from "expo-font";
 
-import Logo from "./components/images/Logo";
 import Input from "./components/Input";
 import SubmitButton from "./components/SubmitButton";
 import FileInput, { PickedFile } from "./components/FileInput";
-import { DocumentResult } from "expo-document-picker";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
-    "Px-Grotesk": require("./assets/fonts/Px Grotesk Regular.ttf"),
-    "Px-Grotesk-Bold": require("./assets/fonts/Px Grotesk Bold.ttf"),
+    "Px-Grotesk": require("./assets/fonts/PxGroteskRegular.ttf"),
+    "Px-Grotesk-Bold": require("./assets/fonts/PxGroteskBold.ttf"),
   });
 
   const [file, setFile] = useState<PickedFile | null>(null);
@@ -29,13 +27,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.logo}>
-        <Logo />
-      </View>
+      <Image style={styles.logo} source={require("./assets/sipgate_io.png")} />
       <Text style={styles.header}>Fax Machine</Text>
       <Text style={styles.description}>
-        Select a <b>PDF-File</b> in <b>A4 Format </b> and send a fax to the
-        number of your choosing.
+        Select a <Text style={styles.bold}>PDF-File</Text> in{" "}
+        <Text>A4 Format </Text> and send a fax to the number of your choosing.
       </Text>
       <View style={styles.input}>
         <Input />
@@ -43,7 +39,7 @@ export default function App() {
       <View style={styles.buttons}>
         <FileInput onPress={setFile} file={file ?? undefined} />
         <SubmitButton
-          style={{ marginTop: "2rem" }}
+          style={{ marginTop: 16 }}
           disabled={file === null}
           onPress={submit}
         />
@@ -57,34 +53,40 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "flex-start",
-    padding: "2rem",
+    padding: 32,
 
+    // TODO: doesn't work in android
     backgroundImage: `url(${require("./assets/background.png")})`,
     backgroundPosition: "bottom",
     backgroundRepeat: "no-repeat",
     backgroundSize: "100%",
   },
   logo: {
-    width: "8rem",
+    width: 8 * 16,
+    height: 4 * 16,
+    resizeMode: "contain",
   },
   header: {
     fontSize: 32,
-    marginTop: "2rem",
+    marginTop: 32,
     fontFamily: "Px-Grotesk-Bold",
   },
   description: {
-    marginTop: "1rem",
+    marginTop: 16,
     fontFamily: "Px-Grotesk",
   },
   input: {
-    marginTop: "1.5rem",
+    marginTop: 24,
     width: "100%",
   },
   buttons: {
-    marginTop: "2rem",
+    marginTop: 32,
     width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  bold: {
+    fontWeight: "bold",
   },
 });
