@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     padding: "0.6rem",
     borderWidth: 2,
-    width: "10rem",
+    width: "11rem",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    fontFamily: "Px-Grotesk",
   },
 });
 

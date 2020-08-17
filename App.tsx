@@ -1,13 +1,24 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useFonts } from "expo-font";
+
 import Logo from "./components/images/Logo";
 import Input from "./components/Input";
 import SubmitButton from "./components/SubmitButton";
 import FileInput from "./components/FileInput";
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    "Px-Grotesk": require("./assets/fonts/Px Grotesk Regular.ttf"),
+    "Px-Grotesk-Bold": require("./assets/fonts/Px Grotesk Bold.ttf"),
+  });
+
   const [file, setFile] = useState<{} | null>(null);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const choosePdf = () => {
     setFile({});
@@ -57,12 +68,13 @@ const styles = StyleSheet.create({
     width: "8rem",
   },
   header: {
-    fontWeight: "bold",
     fontSize: 32,
     marginTop: "2rem",
+    fontFamily: "Px-Grotesk-Bold",
   },
   description: {
     marginTop: "1rem",
+    fontFamily: "Px-Grotesk",
   },
   input: {
     marginTop: "1.5rem",

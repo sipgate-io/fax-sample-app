@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   touchable: {
     borderRadius: 100,
     padding: "0.8rem",
-    width: "10rem",
+    width: "11rem",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: "white",
+    fontFamily: "Px-Grotesk",
   },
 });
 

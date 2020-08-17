@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     borderColor: "#6a6a6a",
     borderBottomWidth: 1.5,
     padding: "0.5rem",
+    fontFamily: "Px-Grotesk",
   },
 });
 
