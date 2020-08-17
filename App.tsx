@@ -1,11 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Logo from "./components/Logo";
+import Logo from "./components/images/Logo";
 import Input from "./components/Input";
+import SubmitButton from "./components/SubmitButton";
+import FileInput from "./components/FileInput";
 
 export default function App() {
-  console.log();
+  const [file, setFile] = useState<{} | null>(null);
+
+  const choosePdf = () => {
+    setFile({});
+  };
+
+  const submit = () => alert("submitted");
 
   return (
     <View style={styles.container}>
@@ -20,6 +28,14 @@ export default function App() {
       </Text>
       <View style={styles.input}>
         <Input />
+      </View>
+      <View style={styles.buttons}>
+        <FileInput onPress={choosePdf} />
+        <SubmitButton
+          style={{ marginTop: "2rem" }}
+          disabled={file === null}
+          onPress={submit}
+        />
       </View>
     </View>
   );
@@ -51,5 +67,12 @@ const styles = StyleSheet.create({
   input: {
     marginTop: "1.5rem",
     width: "100%",
+  },
+  buttons: {
+    marginTop: "2rem",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
