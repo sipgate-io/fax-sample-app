@@ -1,19 +1,8 @@
 import React from "react";
-import { useState } from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, TextInputProps } from "react-native";
 
-const Input = () => {
-  const [value, onChangeText] = useState<string>("");
-
-  return (
-    <TextInput
-      style={styles.input}
-      keyboardType="phone-pad"
-      placeholder="Faxnummer"
-      onChangeText={(text) => onChangeText(text)}
-      value={value}
-    />
-  );
+const Input = (props: TextInputProps) => {
+  return <TextInput {...props} style={[styles.input, props.style]} />;
 };
 
 const styles = StyleSheet.create({

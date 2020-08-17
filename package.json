@@ -9,14 +9,15 @@
   },
   "dependencies": {
     "expo": "~38.0.8",
+    "expo-document-picker": "~8.2.1",
+    "expo-font": "~8.2.1",
     "expo-status-bar": "^1.0.2",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
-    "react-native-web": "~0.11.7",
-    "expo-font": "~8.2.1",
     "react-native-svg": "12.1.0",
-    "expo-document-picker": "~8.2.1"
+    "react-native-web": "~0.11.7",
+    "sipgateio": "^1.9.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
