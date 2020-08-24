@@ -5,18 +5,18 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
   TouchableOpacity,
-  ViewProps,
   StyleProp,
   ViewStyle,
 } from "react-native";
 
 export interface Props {
   disabled?: boolean;
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
   onPress?: (e: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  title: string;
 }
 
-const SubmitButton = ({ onPress, style, disabled }: Props) => {
+const SubmitButton = ({ title, onPress, style, disabled }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -27,7 +27,7 @@ const SubmitButton = ({ onPress, style, disabled }: Props) => {
         style,
       ]}
     >
-      <Text style={styles.text}>Senden</Text>
+      <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
 };

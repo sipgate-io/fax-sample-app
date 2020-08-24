@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.0",
     "expo": "~38.0.8",
     "expo-document-picker": "~8.2.1",
     "expo-font": "~8.2.1",

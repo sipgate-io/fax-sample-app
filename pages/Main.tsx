@@ -1,23 +1,18 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Image, Text, View, ImageBackground } from "react-native";
-import { useFonts } from "expo-font";
+import { StyleSheet, Image, Text, View } from "react-native";
 
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 import FileInput, { PickedFile } from "../components/FileInput";
+import { Credentials } from "../App";
 
-export default function Main() {
-  let [fontsLoaded] = useFonts({
-    "Px-Grotesk": require("../assets/fonts/PxGroteskRegular.ttf"),
-    "Px-Grotesk-Bold": require("../assets/fonts/PxGroteskBold.ttf"),
-  });
+interface Props {
+  credentials: Credentials;
+}
 
+export default function Main({ credentials }: Props) {
   const [file, setFile] = useState<PickedFile | null>(null);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   const submit = () => {
     alert("submitted");
@@ -39,6 +34,7 @@ export default function Main() {
       <View style={styles.buttons}>
         <FileInput onPress={setFile} file={file ?? undefined} />
         <SubmitButton
+          title="Senden"
           style={{ marginTop: 16 }}
           disabled={file === null}
           onPress={submit}
