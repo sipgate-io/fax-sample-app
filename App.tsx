@@ -3,10 +3,11 @@ import { useFonts } from "expo-font";
 
 import Main from "./pages/Main";
 import Login from "./pages/Login";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import { useAsyncStorage } from "@react-native-community/async-storage";
 import { LOGIN_KEY } from "./storage/keys";
+import { BackgroundImage } from "./components/BackgroundImage";
 
 export interface Credentials {
   username: string;
@@ -14,7 +15,7 @@ export interface Credentials {
 }
 
 export default function App() {
-  const [fontsLoaded, error] = useFonts({
+  const [fontsLoaded] = useFonts({
     "Px-Grotesk": require("./assets/fonts/PxGroteskRegular.ttf"),
     "Px-Grotesk-Bold": require("./assets/fonts/PxGroteskBold.ttf"),
   });
@@ -23,7 +24,7 @@ export default function App() {
     Credentials | null | undefined
   >(undefined);
 
-  const { setItem, getItem } = useAsyncStorage(LOGIN_KEY);
+  const { setItem, getItem, removeItem } = useAsyncStorage(LOGIN_KEY);
 
   useEffect(() => {
     getItem()
@@ -37,25 +38,14 @@ export default function App() {
     setCredentials(credentials);
   };
 
+  if (!fontsLoaded) return null;
+
   return (
-    <View style={styles.container}>
-      {credentials === null && <Login login={login} />}
-      {credentials && <Main credentials={credentials} />}
-    </View>
+    <BackgroundImage source={require("./assets/background.png")}>
+      <View style={{ padding: 32 }}>
+        {credentials === null && <Login login={login} />}
+        {credentials && <Main credentials={credentials} />}
+      </View>
+    </BackgroundImage>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
-    padding: 32,
-
-    // TODO: doesn't work in android
-    backgroundImage: `url(${require("./assets/background.png")})`,
-    backgroundPosition: "bottom",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "100%",
-  },
-});

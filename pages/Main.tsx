@@ -6,16 +6,39 @@ import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 import FileInput, { PickedFile } from "../components/FileInput";
 import { Credentials } from "../App";
+import { createFaxModule, sipgateIO } from "sipgateio";
+import { Fax } from "sipgateio/dist/fax/models/fax.model";
+
+async function sendFax(credentials: Credentials, fax: Fax) {
+  const client = sipgateIO(credentials);
+  const faxModule = createFaxModule(client);
+  await faxModule.send(fax);
+}
 
 interface Props {
   credentials: Credentials;
 }
 
 export default function Main({ credentials }: Props) {
+  const [recipient, setRecipient] = useState<string | undefined>("");
   const [file, setFile] = useState<PickedFile | null>(null);
 
-  const submit = () => {
-    alert("submitted");
+  const submit = async () => {
+    if (!file?.file) return alert("no file set");
+    if (!recipient) return alert("no recipient set");
+
+    const buffer = await file.file.arrayBuffer();
+
+    const fax = {
+      to: recipient,
+      fileContent: buffer,
+      filename: file?.name,
+      faxlineId: "??",
+    };
+
+    alert("submit");
+    // sendFax(credentials, fax);
+
     setFile(null);
   };
 
@@ -29,7 +52,12 @@ export default function Main({ credentials }: Props) {
         <Text>A4 Format </Text> and send a fax to the number of your choosing.
       </Text>
       <View style={styles.input}>
-        <Input keyboardType="phone-pad" placeholder="Faxnummer" />
+        <Input
+          keyboardType="phone-pad"
+          placeholder="Faxnummer"
+          onChangeText={setRecipient}
+          value={recipient}
+        />
       </View>
       <View style={styles.buttons}>
         <FileInput onPress={setFile} file={file ?? undefined} />

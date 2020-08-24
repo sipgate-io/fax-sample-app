@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 
@@ -30,7 +30,7 @@ export default function Login({ login }: Props) {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Input placeholder="E-Mail" value={username} onChangeText={setUsername} />
       <Input
         placeholder="Passwort"
@@ -42,3 +42,7 @@ export default function Login({ login }: Props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+});
