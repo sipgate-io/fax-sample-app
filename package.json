@@ -8,23 +8,23 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.12.0",
-    "expo": "~38.0.8",
+    "@react-native-community/async-storage": "~1.11.0",
+    "expo": "^38.0.0",
     "expo-document-picker": "~8.2.1",
     "expo-font": "~8.2.1",
-    "expo-status-bar": "^1.0.2",
-    "react": "~16.11.0",
-    "react-dom": "~16.11.0",
+    "expo-status-bar": "^1.0.0",
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-svg": "12.1.0",
     "react-native-web": "~0.11.7",
     "sipgateio": "^1.9.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "^7.11.4",
     "@types/react": "~16.9.41",
     "@types/react-native": "~0.62.13",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.0",
     "typescript": "~3.9.5"
   },
   "private": true
