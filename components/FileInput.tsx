@@ -23,6 +23,7 @@ const FileChooser = ({ file, onPress }: Props) => {
       if (result.type === "success" && onPress) onPress(result);
     });
   };
+
   return (
     <TouchableOpacity onPress={onPressInner} style={styles.touchable}>
       <Image style={styles.img} source={require("../assets/fileIcon.png")} />

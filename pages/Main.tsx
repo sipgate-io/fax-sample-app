@@ -6,13 +6,14 @@ import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 import FileInput, { PickedFile } from "../components/FileInput";
 import { Credentials } from "../App";
-import { createFaxModule, sipgateIO } from "sipgateio";
-import { Fax } from "sipgateio/dist/fax/models/fax.model";
+import { createFaxModule, sipgateIO, Fax } from "sipgateio";
+import { Buffer } from "buffer";
+import { readFile } from "../utils/files";
 
-async function sendFax(credentials: Credentials, fax: Fax) {
+function sendFax(credentials: Credentials, fax: Fax): Promise<string> {
   const client = sipgateIO(credentials);
   const faxModule = createFaxModule(client);
-  await faxModule.send(fax);
+  return faxModule.send(fax).then((res) => res.sessionId);
 }
 
 interface Props {
@@ -24,22 +25,27 @@ export default function Main({ credentials }: Props) {
   const [file, setFile] = useState<PickedFile | null>(null);
 
   const submit = async () => {
-    if (!file?.file) return alert("no file set");
+    if (!file) return alert("no file set");
     if (!recipient) return alert("no recipient set");
 
-    const buffer = await file.file.arrayBuffer();
+    let buffer;
+    if (file.file) {
+      // only on browser
+      buffer = new Buffer(await file.file.arrayBuffer());
+    } else {
+      buffer = await readFile(file.uri);
+    }
 
-    const fax = {
+    const fax: Fax = {
       to: recipient,
       fileContent: buffer,
       filename: file?.name,
-      faxlineId: "??",
+      faxlineId: "f0",
     };
 
-    alert("submit");
-    // sendFax(credentials, fax);
-
-    setFile(null);
+    await sendFax(credentials, fax)
+      .then(() => setFile(null))
+      .catch(console.error);
   };
 
   return (

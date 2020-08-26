@@ -11,8 +11,7 @@ async function attemptLogin(username: string, password: string) {
     password,
   });
   const settings = createSettingsModule(sipgateio);
-  const response = await settings.getWebhookSettings();
-  if (response instanceof Error) throw response;
+  await settings.getWebhookSettings();
 }
 
 interface Props {
@@ -26,7 +25,7 @@ export default function Login({ login }: Props) {
   const submit = () => {
     attemptLogin(username, password)
       .then(() => login(username, password))
-      .catch((e) => alert(e.message));
+      .catch((e) => console.error(e));
   };
 
   return (

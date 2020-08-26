@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "~1.11.0",
+    "buffer": "^5.6.0",
     "expo": "^38.0.0",
     "expo-document-picker": "~8.2.1",
     "expo-font": "~8.2.1",
@@ -18,7 +19,8 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-svg": "12.1.0",
     "react-native-web": "~0.11.7",
-    "sipgateio": "^1.9.4"
+    "sipgateio": "sipgate-io/sipgateio-node#refactor/releaseCleanUp",
+    "expo-file-system": "~9.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",

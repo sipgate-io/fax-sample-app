@@ -9,6 +9,10 @@ import { useAsyncStorage } from "@react-native-community/async-storage";
 import { LOGIN_KEY } from "./storage/keys";
 import { BackgroundImage } from "./components/BackgroundImage";
 
+import { Buffer } from "buffer";
+
+global.Buffer = Buffer;
+
 export interface Credentials {
   username: string;
   password: string;
