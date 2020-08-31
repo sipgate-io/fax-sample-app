@@ -43,6 +43,7 @@ export default function Login({ login }: Props) {
         value={username}
         onChangeText={setUsername}
         error={errorMessage !== null}
+        autoCompleteType="username"
       />
       <Input
         style={styles.input}
@@ -50,6 +51,8 @@ export default function Login({ login }: Props) {
         value={password}
         onChangeText={setPassword}
         error={errorMessage !== null}
+        secureTextEntry
+        autoCompleteType="password"
       />
       <View style={styles.errorTextContainer}>
         <Text style={styles.errorText}>{errorMessage}</Text>

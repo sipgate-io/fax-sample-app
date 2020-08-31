@@ -51,7 +51,7 @@ export default function App() {
         <StatusBar style="auto" />
         <Image
           style={styles.logo}
-          source={require("./assets/sipgate_io.png")}
+          source={require("./assets/images/sipgateIO.png")}
         />
         {credentials === null && <Login login={login} />}
         {credentials && <Main credentials={credentials} />}

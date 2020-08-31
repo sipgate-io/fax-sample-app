@@ -50,7 +50,6 @@ export default function Main({ credentials }: Props) {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/sipgate_io.png")} />
       <Text style={styles.header}>Fax Machine</Text>
       <Text style={styles.description}>
         Select a <Text style={styles.bold}>PDF-File</Text> in{" "}
