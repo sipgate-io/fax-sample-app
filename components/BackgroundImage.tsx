@@ -1,13 +1,39 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 
-import { StyleSheet, Dimensions, View, Image, ImageProps } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  Image,
+  ImageProps,
+  Keyboard,
+} from "react-native";
 
 type Props = PropsWithChildren<ImageProps>;
 
 export const BackgroundImage = ({ source, children, ...rest }: Props) => {
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+
+  useEffect(() => {
+    const didShow = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardOpen(true);
+    });
+    const didHide = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardOpen(false);
+    });
+    return () => {
+      didShow.remove();
+      didHide.remove();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={source} {...rest} />
+      <Image
+        style={[styles.image, { display: keyboardOpen ? "none" : undefined }]}
+        source={source}
+        {...rest}
+      />
       <View style={styles.children}>{children}</View>
     </View>
   );
@@ -35,6 +61,5 @@ const styles = StyleSheet.create({
     width: scaledWidth,
     height: scaledHeight,
     resizeMode: "contain",
-    position: "relative",
   },
 });
