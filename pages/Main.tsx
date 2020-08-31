@@ -50,7 +50,6 @@ export default function Main({ credentials }: Props) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
       <Image style={styles.logo} source={require("../assets/sipgate_io.png")} />
       <Text style={styles.header}>Fax Machine</Text>
       <Text style={styles.description}>
@@ -82,11 +81,6 @@ export default function Main({ credentials }: Props) {
 
 const styles = StyleSheet.create({
   container: {},
-  logo: {
-    width: 8 * 16,
-    height: 4 * 16,
-    resizeMode: "contain",
-  },
   header: {
     fontSize: 32,
     marginTop: 32,

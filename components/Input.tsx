@@ -12,12 +12,16 @@ import {
 interface Props extends TextInputProps {
   onIconClick?: () => void;
   icon?: ImageSourcePropType;
+  error?: boolean;
 }
 
-const Input = ({ onIconClick, icon, ...rest }: Props) => {
+const Input = ({ error, onIconClick, icon, ...rest }: Props) => {
+  let inputStyles = [styles.input, rest.style];
+  if (error) inputStyles.push(styles.error);
+
   return (
     <View style={styles.container}>
-      <TextInput {...rest} style={[styles.input, rest.style]} />
+      <TextInput {...rest} style={inputStyles} />
       {icon && (
         <TouchableOpacity
           onPress={() => onIconClick && onIconClick()}
@@ -39,6 +43,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     padding: 8,
     fontFamily: "Px-Grotesk",
+  },
+  error: {
+    borderColor: "#ff0000",
   },
   icon: {
     width: 24,
