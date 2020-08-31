@@ -63,6 +63,8 @@ export default function Main({ credentials }: Props) {
           placeholder="Faxnummer"
           onChangeText={setRecipient}
           value={recipient}
+          icon={require("../assets/icons/contacts.png")}
+          onIconClick={() => alert("contact selection")}
         />
       </View>
       <View style={styles.buttons}>
