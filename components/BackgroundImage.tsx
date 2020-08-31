@@ -13,7 +13,7 @@ export const BackgroundImage = ({ source, children, ...rest }: Props) => {
   );
 };
 
-const imageAspectRatio = 750 / 354;
+const imageAspectRatio = 415 / 235;
 const scaledWidth = Dimensions.get("window").width;
 const scaledHeight = scaledWidth / imageAspectRatio;
 
