@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     justifyContent: 'flex-end',
-
+    backgroundColor: 'white',
     position: 'relative',
   },
   children: {

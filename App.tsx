@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Image, View} from 'react-native';
+import {StyleSheet, Image, View, StatusBar, Platform} from 'react-native';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
@@ -14,6 +14,9 @@ export interface Credentials {
 }
 
 export default function App() {
+  const STATUSBAR_HEIGHT =
+    Platform.OS === 'ios' ? 20 : StatusBar.currentHeight || 20;
+
   const [credentials, setCredentials] = useState<
     Credentials | null | undefined
   >(undefined);
@@ -34,7 +37,8 @@ export default function App() {
 
   return (
     <BackgroundImage source={require('./assets/background.png')}>
-      <View style={{padding: 32}}>
+      <StatusBar translucent backgroundColor="white" barStyle="dark-content" />
+      <View style={{padding: 32, paddingTop: STATUSBAR_HEIGHT + 2}}>
         <Image
           style={styles.logo}
           source={require('./assets/images/sipgateIO.png')}
