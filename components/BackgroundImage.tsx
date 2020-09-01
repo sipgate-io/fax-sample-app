@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, {PropsWithChildren, useEffect, useState} from 'react';
 
 import {
   StyleSheet,
@@ -7,18 +7,18 @@ import {
   Image,
   ImageProps,
   Keyboard,
-} from "react-native";
+} from 'react-native';
 
 type Props = PropsWithChildren<ImageProps>;
 
-export const BackgroundImage = ({ source, children, ...rest }: Props) => {
+export const BackgroundImage = ({source, children, ...rest}: Props) => {
   const [keyboardOpen, setKeyboardOpen] = useState(false);
 
   useEffect(() => {
-    const didShow = Keyboard.addListener("keyboardDidShow", () => {
+    const didShow = Keyboard.addListener('keyboardDidShow', () => {
       setKeyboardOpen(true);
     });
-    const didHide = Keyboard.addListener("keyboardDidHide", () => {
+    const didHide = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardOpen(false);
     });
     return () => {
@@ -30,7 +30,7 @@ export const BackgroundImage = ({ source, children, ...rest }: Props) => {
   return (
     <View style={styles.container}>
       <Image
-        style={[styles.image, { display: keyboardOpen ? "none" : undefined }]}
+        style={[styles.image, {display: keyboardOpen ? 'none' : undefined}]}
         source={source}
         {...rest}
       />
@@ -40,26 +40,26 @@ export const BackgroundImage = ({ source, children, ...rest }: Props) => {
 };
 
 const imageAspectRatio = 415 / 235;
-const scaledWidth = Dimensions.get("window").width;
+const scaledWidth = Dimensions.get('window').width;
 const scaledHeight = scaledWidth / imageAspectRatio;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: "flex",
-    justifyContent: "flex-end",
+    display: 'flex',
+    justifyContent: 'flex-end',
 
-    position: "relative",
+    position: 'relative',
   },
   children: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   image: {
     width: scaledWidth,
     height: scaledHeight,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
 });

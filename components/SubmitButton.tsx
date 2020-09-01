@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Text,
   StyleSheet,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleProp,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 
 export interface Props {
   disabled?: boolean;
@@ -16,17 +16,16 @@ export interface Props {
   title: string;
 }
 
-const SubmitButton = ({ title, onPress, style, disabled }: Props) => {
+const SubmitButton = ({title, onPress, style, disabled}: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
       style={[
         styles.touchable,
-        { backgroundColor: disabled ? "#bfbfbf" : "black" },
+        {backgroundColor: disabled ? '#bfbfbf' : 'black'},
         style,
-      ]}
-    >
+      ]}>
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
@@ -37,15 +36,15 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     padding: 12,
     width: 11 * 16,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   text: {
     fontSize: 16,
-    color: "white",
-    fontFamily: "Px-Grotesk",
+    color: 'white',
+    fontFamily: 'Px-Grotesk',
   },
 });
 

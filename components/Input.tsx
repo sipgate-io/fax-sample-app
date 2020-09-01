@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   TextInput,
   Image,
@@ -7,7 +7,7 @@ import {
   View,
   TouchableOpacity,
   ImageSourcePropType,
-} from "react-native";
+} from 'react-native';
 
 interface Props extends TextInputProps {
   onIconClick?: () => void;
@@ -15,7 +15,7 @@ interface Props extends TextInputProps {
   error?: boolean;
 }
 
-const Input = ({ error, onIconClick, icon, ...rest }: Props) => {
+const Input = ({error, onIconClick, icon, ...rest}: Props) => {
   let inputStyles = [styles.input, rest.style];
   if (error) inputStyles.push(styles.error);
 
@@ -25,8 +25,7 @@ const Input = ({ error, onIconClick, icon, ...rest }: Props) => {
       {icon && (
         <TouchableOpacity
           onPress={() => onIconClick && onIconClick()}
-          style={styles.iconContainer}
-        >
+          style={styles.iconContainer}>
           <Image style={styles.icon} source={icon} />
         </TouchableOpacity>
       )}
@@ -36,28 +35,28 @@ const Input = ({ error, onIconClick, icon, ...rest }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
+    position: 'relative',
   },
   input: {
-    borderColor: "#6a6a6a",
+    borderColor: '#6a6a6a',
     borderBottomWidth: 1.5,
     padding: 8,
-    fontFamily: "Px-Grotesk",
+    fontFamily: 'Px-Grotesk',
   },
   error: {
-    borderColor: "#ff0000",
+    borderColor: '#ff0000',
   },
   icon: {
     width: 24,
     height: 24,
-    margin: "auto",
+    margin: 'auto',
   },
   iconContainer: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,
-    margin: "auto",
+    margin: 'auto',
   },
 });
 

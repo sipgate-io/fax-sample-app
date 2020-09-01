@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
-import Input from "../components/Input";
-import SubmitButton from "../components/SubmitButton";
+import React, {useState} from 'react';
+import {Text, StyleSheet, View, Image} from 'react-native';
+import Input from '../components/Input';
+import SubmitButton from '../components/SubmitButton';
 
-import { sipgateIO, createSettingsModule, createFaxModule } from "sipgateio";
+import {sipgateIO, createSettingsModule} from 'sipgateio';
 
 async function attemptLogin(username: string, password: string) {
   const sipgateio = sipgateIO({
@@ -18,9 +18,9 @@ interface Props {
   login: (username: string, password: string) => void;
 }
 
-export default function Login({ login }: Props) {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+export default function Login({login}: Props) {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -31,12 +31,12 @@ export default function Login({ login }: Props) {
   };
 
   const setError = (error: Error) => {
-    if (error.message === "Unauthorized") {
-      setErrorMessage("There is no sipgate account with these credentials.");
-    } else if (error.message.startsWith("Invalid email")) {
-      setErrorMessage("This email is invalid.");
+    if (error.message === 'Unauthorized') {
+      setErrorMessage('There is no sipgate account with these credentials.');
+    } else if (error.message.startsWith('Invalid email')) {
+      setErrorMessage('This email is invalid.');
     } else {
-      setErrorMessage("Ups. An error occurred.");
+      setErrorMessage('Ups. An error occurred.');
     }
   };
 
@@ -67,7 +67,7 @@ export default function Login({ login }: Props) {
       <View style={styles.errorTextContainer}>
         {errorMessage ? (
           <Image
-            source={require("../assets/exclamation_mark.png")}
+            source={require('../assets/exclamation_mark.png')}
             style={styles.exclamationMark}
           />
         ) : undefined}
@@ -78,7 +78,7 @@ export default function Login({ login }: Props) {
         <SubmitButton
           onPress={submit}
           title="Login"
-          disabled={username === "" || password === ""}
+          disabled={username === '' || password === ''}
         />
       </View>
     </View>
@@ -89,11 +89,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 32,
     marginTop: 32,
-    fontFamily: "Px-Grotesk-Bold",
   },
   description: {
     marginTop: 16,
-    fontFamily: "Px-Grotesk",
   },
   input: {
     marginTop: 32,
@@ -101,20 +99,20 @@ const styles = StyleSheet.create({
   errorTextContainer: {
     paddingTop: 8,
     paddingBottom: 8,
-    display: "flex",
-    flexDirection: "row",
-    maxWidth: "80%",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    maxWidth: '80%',
+    alignItems: 'center',
   },
   errorText: {
-    color: "#ff0000",
+    color: '#ff0000',
     minHeight: 1,
   },
   submitButtonContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 32,
   },
   exclamationMark: {
