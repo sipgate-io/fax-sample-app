@@ -1,6 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Image, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";

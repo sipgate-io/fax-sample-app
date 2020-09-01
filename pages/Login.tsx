@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Image } from "react-native";
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 
@@ -27,7 +27,17 @@ export default function Login({ login }: Props) {
   const submit = () => {
     attemptLogin(username, password)
       .then(() => login(username, password))
-      .catch((e) => setErrorMessage(e.message));
+      .catch(setError);
+  };
+
+  const setError = (error: Error) => {
+    if (error.message === "Unauthorized") {
+      setErrorMessage("There is no sipgate account with these credentials.");
+    } else if (error.message.startsWith("Invalid email")) {
+      setErrorMessage("This email is invalid.");
+    } else {
+      setErrorMessage("Ups. An error occurred.");
+    }
   };
 
   return (
@@ -55,11 +65,21 @@ export default function Login({ login }: Props) {
         autoCompleteType="password"
       />
       <View style={styles.errorTextContainer}>
+        {errorMessage ? (
+          <Image
+            source={require("../assets/exclamation_mark.png")}
+            style={styles.exclamationMark}
+          />
+        ) : undefined}
         <Text style={styles.errorText}>{errorMessage}</Text>
       </View>
 
       <View style={styles.submitButtonContainer}>
-        <SubmitButton onPress={submit} title="Login" />
+        <SubmitButton
+          onPress={submit}
+          title="Login"
+          disabled={username === "" || password === ""}
+        />
       </View>
     </View>
   );
@@ -81,6 +101,10 @@ const styles = StyleSheet.create({
   errorTextContainer: {
     paddingTop: 8,
     paddingBottom: 8,
+    display: "flex",
+    flexDirection: "row",
+    maxWidth: "80%",
+    alignItems: "center",
   },
   errorText: {
     color: "#ff0000",
@@ -92,5 +116,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 32,
+  },
+  exclamationMark: {
+    width: 17,
+    height: 17,
+    marginRight: 7,
   },
 });
