@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Alert} from 'react-native';
 
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
 import {Credentials} from '../App';
 import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
+import {selectContact} from 'react-native-select-contact';
 
 function sendFax(credentials: Credentials, fax: Fax): Promise<string> {
   const client = sipgateIO(credentials);
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export default function Main({credentials}: Props) {
-  const [recipient, setRecipient] = useState<string | undefined>('');
+  const [recipient, setRecipient] = useState<string | null>(null);
   const [file, setFile] = useState<PickedFile | null>(null);
 
   const submit = async () => {
@@ -37,6 +38,27 @@ export default function Main({credentials}: Props) {
       .catch(console.error);
   };
 
+  const pickContact = async () => {
+    selectContact()
+      .then((contact) => {
+        if (!contact) return;
+
+        const faxNumbers = contact.phones.filter((phone) =>
+          phone.type.toLowerCase().includes('fax'),
+        );
+        const firstFaxNumber = faxNumbers[0];
+
+        if (!firstFaxNumber) {
+          Alert.alert('no fax number belongs to this contact');
+          setRecipient(null);
+          return;
+        }
+
+        setRecipient(firstFaxNumber.number);
+      })
+      .catch(console.error);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Fax Machine</Text>
@@ -51,7 +73,7 @@ export default function Main({credentials}: Props) {
           onChangeText={setRecipient}
           value={recipient}
           icon={require('../assets/icons/contacts.png')}
-          onIconClick={async () => {}}
+          onIconClick={pickContact}
         />
       </View>
       <View style={styles.buttons}>

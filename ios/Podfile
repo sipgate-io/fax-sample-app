@@ -12,6 +12,8 @@ target 'faxapp' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'RCTSelectContact', :path => '../node_modules/react-native-select-contact'
+
   target 'faxappTests' do
     inherit! :complete
     # Pods for testing
