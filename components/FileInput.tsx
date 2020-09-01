@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontFamily: 'Px-Grotesk',
   },
   img: {
     width: 16,
