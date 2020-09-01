@@ -69,7 +69,7 @@ export default function Main({ credentials }: Props) {
         <SubmitButton
           title="Senden"
           style={{ marginTop: 16 }}
-          disabled={file === null}
+          disabled={file === null || recipient === ""}
           onPress={submit}
         />
       </View>
