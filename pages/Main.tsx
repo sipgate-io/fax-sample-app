@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Alert} from 'react-native';
+import {StyleSheet, Text, View, Alert, PermissionsAndroid} from 'react-native';
 
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
@@ -39,22 +39,28 @@ export default function Main({credentials}: Props) {
   };
 
   const pickContact = async () => {
-    selectContact()
-      .then((contact) => {
-        if (!contact) return;
-
-        const faxNumbers = contact.phones.filter((phone) =>
-          phone.type.toLowerCase().includes('fax'),
-        );
-        const firstFaxNumber = faxNumbers[0];
-
-        if (!firstFaxNumber) {
-          Alert.alert('no fax number belongs to this contact');
-          setRecipient(null);
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
+      .then((status) => {
+        if (status !== 'granted') {
           return;
         }
 
-        setRecipient(firstFaxNumber.number);
+        return selectContact().then((contact) => {
+          if (!contact) return;
+
+          const faxNumbers = contact.phones.filter((phone) =>
+            phone.type.toLowerCase().includes('fax'),
+          );
+          const firstFaxNumber = faxNumbers[0];
+
+          if (!firstFaxNumber) {
+            Alert.alert('no fax number belongs to this contact');
+            setRecipient(null);
+            return;
+          }
+
+          setRecipient(firstFaxNumber.number);
+        });
       })
       .catch(console.error);
   };
