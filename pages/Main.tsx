@@ -21,6 +21,7 @@ interface Props {
 export default function Main({credentials}: Props) {
   const [recipient, setRecipient] = useState<string | null>(null);
   const [file, setFile] = useState<PickedFile | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const submit = async () => {
     if (!file) return alert('no file set');
@@ -87,7 +88,8 @@ export default function Main({credentials}: Props) {
         <SubmitButton
           title="Senden"
           style={{marginTop: 16}}
-          disabled={file === null || recipient === ''}
+          loading={isLoading}
+          disabled={file === null || recipient === '' || isLoading}
           onPress={submit}
         />
       </View>

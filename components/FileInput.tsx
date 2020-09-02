@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   touchable: {
     borderRadius: 100,
     padding: 10,
+    height: 48,
     borderWidth: 2,
     width: 11 * 16,
     display: 'flex',

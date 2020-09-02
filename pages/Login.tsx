@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, View, Image} from 'react-native';
+import {Text, StyleSheet, View, Image, Alert} from 'react-native';
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 
@@ -21,13 +21,18 @@ interface Props {
 export default function Login({login}: Props) {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const submit = () => {
+    setIsLoading(true);
     attemptLogin(username, password)
       .then(() => login(username, password))
-      .catch(setError);
+      .catch((error) => {
+        setError(error);
+        setIsLoading(false);
+      })
   };
 
   const setError = (error: Error) => {
@@ -36,7 +41,7 @@ export default function Login({login}: Props) {
     } else if (error.message.startsWith('Invalid email')) {
       setErrorMessage('This email is invalid.');
     } else {
-      setErrorMessage('Ups. An error occurred.');
+      setErrorMessage('Ups. An error occurred: ' + error.message);
     }
   };
 
@@ -78,7 +83,8 @@ export default function Login({login}: Props) {
         <SubmitButton
           onPress={submit}
           title="Login"
-          disabled={username === '' || password === ''}
+          loading={isLoading}
+          disabled={username === '' || password === '' || isLoading}
         />
       </View>
     </View>
