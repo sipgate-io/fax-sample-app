@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, View, Image, Alert} from 'react-native';
+import {Text, StyleSheet, View, Image} from 'react-native';
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 
@@ -76,7 +76,7 @@ export default function Login({login}: Props) {
       <View style={styles.errorTextContainer}>
         {errorMessage ? (
           <Image
-            source={require('../assets/exclamation_mark.png')}
+            source={require('../assets/icons/exclamation_mark.png')}
             style={styles.exclamationMark}
           />
         ) : undefined}
@@ -126,9 +126,9 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   exclamationMark: {
-    width: 17,
-    height: 17,
-    marginRight: 7,
+    width: 16,
+    height: 16,
+    marginRight: 6,
   },
   logo: {
     width: 8 * 16,
