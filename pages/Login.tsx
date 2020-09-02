@@ -32,7 +32,7 @@ export default function Login({login}: Props) {
       .catch((error) => {
         setError(error);
         setIsLoading(false);
-      })
+      });
   };
 
   const setError = (error: Error) => {
@@ -47,6 +47,10 @@ export default function Login({login}: Props) {
 
   return (
     <View>
+      <Image
+        style={styles.logo}
+        source={require('../assets/images/sipgateIO.png')}
+      />
       <Text style={styles.header}>Log in</Text>
       <Text style={styles.description}>
         Log in to your sipgate basic, simquadrat or sipgate team account.
@@ -125,5 +129,10 @@ const styles = StyleSheet.create({
     width: 17,
     height: 17,
     marginRight: 7,
+  },
+  logo: {
+    width: 8 * 16,
+    height: 4 * 16,
+    resizeMode: 'contain',
   },
 });

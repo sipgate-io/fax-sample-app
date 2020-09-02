@@ -35,25 +35,18 @@ export default function App() {
     setCredentials(credentials);
   };
 
+  const logout = () => {
+    removeItem();
+    setCredentials(null);
+  };
+
   return (
     <BackgroundImage source={require('./assets/background.png')}>
       <StatusBar translucent backgroundColor="white" barStyle="dark-content" />
       <View style={{padding: 32, paddingTop: STATUSBAR_HEIGHT + 2}}>
-        <Image
-          style={styles.logo}
-          source={require('./assets/images/sipgateIO.png')}
-        />
         {credentials === null && <Login login={login} />}
-        {credentials && <Main credentials={credentials} />}
+        {credentials && <Main credentials={credentials} logout={logout} />}
       </View>
     </BackgroundImage>
   );
 }
-
-const styles = StyleSheet.create({
-  logo: {
-    width: 8 * 16,
-    height: 4 * 16,
-    resizeMode: 'contain',
-  },
-});

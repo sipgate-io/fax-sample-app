@@ -9,7 +9,6 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { readDir } from 'react-native-fs';
 
 export interface Props {
   disabled?: boolean;
@@ -26,15 +25,17 @@ const SubmitButton = ({title, onPress, style, disabled, loading}: Props) => {
       disabled={disabled}
       style={[
         styles.touchable,
-        {backgroundColor: (disabled && !loading) ? '#bfbfbf' : 'black'},
+        {backgroundColor: disabled && !loading ? '#bfbfbf' : 'black'},
         style,
       ]}>
-      {loading 
-        ? <Image
+      {loading ? (
+        <Image
           style={{width: 24, height: 24}}
           source={require('../assets/animations/loading_animation_button.gif')}
         />
-        : <Text style={styles.text}>{title}</Text>} 
+      ) : (
+        <Text style={styles.text}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Alert, PermissionsAndroid} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  PermissionsAndroid,
+  Image,
+} from 'react-native';
 
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
@@ -7,6 +14,7 @@ import FileInput, {PickedFile} from '../components/FileInput';
 import {Credentials} from '../App';
 import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
+import LogoutButton from '../components/LogoutButton';
 
 function sendFax(credentials: Credentials, fax: Fax): Promise<string> {
   const client = sipgateIO(credentials);
@@ -16,9 +24,10 @@ function sendFax(credentials: Credentials, fax: Fax): Promise<string> {
 
 interface Props {
   credentials: Credentials;
+  logout: () => void;
 }
 
-export default function Main({credentials}: Props) {
+export default function Main({credentials, logout}: Props) {
   const [recipient, setRecipient] = useState<string | null>(null);
   const [file, setFile] = useState<PickedFile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -70,7 +79,14 @@ export default function Main({credentials}: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Fax Machine</Text>
+      <View style={styles.header}>
+        <Image
+          style={styles.logo}
+          source={require('../assets/images/sipgateIO.png')}
+        />
+        <LogoutButton title="Logout" onPress={logout} />
+      </View>
+      <Text style={styles.title}>Fax Machine</Text>
       <Text style={styles.description}>
         Select a <Text style={styles.bold}>PDF-File</Text> in{' '}
         <Text>A4 Format </Text> and send a fax to the number of your choosing.
@@ -101,7 +117,7 @@ export default function Main({credentials}: Props) {
 
 const styles = StyleSheet.create({
   container: {},
-  header: {
+  title: {
     fontSize: 32,
     marginTop: 32,
   },
@@ -121,5 +137,16 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: 'bold',
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  logo: {
+    width: 8 * 16,
+    height: 4 * 16,
+    resizeMode: 'contain',
   },
 });
