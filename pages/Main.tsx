@@ -34,9 +34,11 @@ export default function Main({credentials}: Props) {
       faxlineId: 'f0',
     };
 
+    setIsLoading(true);
     await sendFax(credentials, fax)
       .then(() => setFile(null))
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   };
 
   const pickContact = async () => {
