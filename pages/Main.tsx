@@ -150,7 +150,7 @@ export default function Main({credentials, logout}: Props) {
           title="Senden"
           style={{marginTop: 16}}
           loading={isLoading}
-          disabled={!file || recipient === '' || isLoading}
+          disabled={!file|| !recipient || isLoading}
           onPress={submit}
         />
         <View style={styles.messageContainer}>
