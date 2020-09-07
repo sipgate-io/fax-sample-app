@@ -102,8 +102,8 @@ export default function Main({credentials, logout}: Props) {
       </View>
       <Text style={styles.title}>Fax Machine</Text>
       <Text style={styles.description}>
-        Select a <Text style={styles.bold}>PDF-File</Text> in{' '}
-        <Text>A4 Format </Text> and send a fax to the number of your choosing.
+        Select a <Text style={styles.bold}>PDF file</Text> in{' '}
+        <Text>A4 format</Text> and send a fax to the number of your choice.
       </Text>
       <View style={styles.input}>
         <Input
