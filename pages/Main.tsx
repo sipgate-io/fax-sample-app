@@ -27,9 +27,27 @@ interface Props {
   logout: () => void;
 }
 
-enum Message {
-  SUCCESS = 'Your fax has been queued.',
-  ERROR = 'Something went wrong.',
+interface StatusMessage {
+  status: SendFaxStatus;
+  message?: string;
+}
+
+enum SendFaxStatus {
+  SUCCESS,
+  ERROR,
+}
+
+function getStatusMessageDisplayText(statusMessage: StatusMessage): string {
+  const defaultMessage =
+    statusMessage.status === SendFaxStatus.SUCCESS
+      ? 'Your fax has been queued'
+      : statusMessage.status === SendFaxStatus.ERROR
+      ? 'Something went wrong'
+      : '';
+
+  return statusMessage.message
+    ? `${defaultMessage}: ${statusMessage.message}`
+    : `${defaultMessage}.`;
 }
 
 export default function Main({credentials, logout}: Props) {
@@ -37,7 +55,7 @@ export default function Main({credentials, logout}: Props) {
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [message, setMessage] = useState<Message | undefined>(undefined);
+  const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
   const submit = async () => {
     const fax: Fax = {
@@ -51,9 +69,11 @@ export default function Main({credentials, logout}: Props) {
     await sendFax(credentials, fax)
       .then(() => {
         setFile(undefined);
-        setMessage(Message.SUCCESS);
+        setStatusMessage({status: SendFaxStatus.SUCCESS});
       })
-      .catch(() => setMessage(Message.ERROR))
+      .catch((error) =>
+        setStatusMessage({status: SendFaxStatus.ERROR, message: error.message}),
+      )
       .finally(() => setIsLoading(false));
   };
 
@@ -77,7 +97,7 @@ export default function Main({credentials, logout}: Props) {
             setRecipient('');
             return;
           }
-          setMessage(undefined);
+          setStatusMessage(undefined);
           setRecipient(firstFaxNumber.number);
         });
       })
@@ -85,9 +105,9 @@ export default function Main({credentials, logout}: Props) {
   };
 
   const messageImage =
-    message === Message.SUCCESS
+    statusMessage?.status === SendFaxStatus.SUCCESS
       ? require('../assets/icons/success.png')
-      : message === Message.ERROR
+      : statusMessage?.status === SendFaxStatus.ERROR
       ? require('../assets/icons/exclamation_mark.png')
       : undefined;
 
@@ -110,7 +130,7 @@ export default function Main({credentials, logout}: Props) {
           keyboardType="phone-pad"
           placeholder="Faxnummer"
           onChangeText={(text) => {
-            setMessage(undefined);
+            setStatusMessage(undefined);
             setRecipient(text);
           }}
           value={recipient}
@@ -121,7 +141,7 @@ export default function Main({credentials, logout}: Props) {
       <View style={styles.buttons}>
         <FileInput
           onPress={(newFile) => {
-            setMessage(undefined);
+            setStatusMessage(undefined);
             setFile(newFile);
           }}
           file={file}
@@ -137,9 +157,10 @@ export default function Main({credentials, logout}: Props) {
           <Image style={styles.messageImage} source={messageImage}/>
           <Text
             style={{
-              color: message === Message.ERROR ? 'red' : 'green',
+              color:
+                statusMessage?.status === SendFaxStatus.ERROR ? 'red' : 'green',
             }}>
-            {message}
+            {statusMessage && getStatusMessageDisplayText(statusMessage)}
           </Text>
         </View>
       </View>
