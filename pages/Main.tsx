@@ -28,7 +28,7 @@ interface Props {
 }
 
 enum Message {
-  SUCCESS = 'Your fax was sent.',
+  SUCCESS = 'Your fax has been queued.',
   ERROR = 'Something went wrong.',
 }
 
