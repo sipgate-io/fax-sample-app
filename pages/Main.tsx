@@ -50,6 +50,10 @@ function getStatusMessageDisplayText(statusMessage: StatusMessage): string {
     : `${defaultMessage}.`;
 }
 
+function sanitizePhoneNumber(phoneNumber: string): string {
+  return phoneNumber.replace(/\D/g, '');
+}
+
 export default function Main({credentials, logout}: Props) {
   const [recipient, setRecipient] = useState<string>('');
   const [file, setFile] = useState<PickedFile>();
@@ -59,7 +63,7 @@ export default function Main({credentials, logout}: Props) {
 
   const submit = async () => {
     const fax: Fax = {
-      to: recipient!,
+      to: sanitizePhoneNumber(recipient!),
       fileContent: file!.buffer,
       filename: file!.name,
       faxlineId: 'f11',
