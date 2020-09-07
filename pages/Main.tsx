@@ -154,7 +154,7 @@ export default function Main({credentials, logout}: Props) {
           title="Senden"
           style={{marginTop: 16}}
           loading={isLoading}
-          disabled={!file|| !recipient || isLoading}
+          disabled={!file || !recipient || isLoading}
           onPress={submit}
         />
         <View style={styles.messageContainer}>
@@ -162,7 +162,11 @@ export default function Main({credentials, logout}: Props) {
           <Text
             style={{
               color:
-                statusMessage?.status === SendFaxStatus.ERROR ? 'red' : 'green',
+                statusMessage?.status === SendFaxStatus.ERROR
+                  ? 'red'
+                  : statusMessage?.status === SendFaxStatus.SUCCESS
+                  ? 'green'
+                  : undefined,
             }}>
             {statusMessage && getStatusMessageDisplayText(statusMessage)}
           </Text>
