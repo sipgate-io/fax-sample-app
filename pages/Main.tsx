@@ -43,7 +43,7 @@ function getStatusMessageDisplayText(statusMessage: StatusMessage): string {
       ? 'Your fax has been queued'
       : statusMessage.status === SendFaxStatus.ERROR
       ? 'Something went wrong'
-      : '';
+      : undefined;
 
   return statusMessage.message
     ? `${defaultMessage}: ${statusMessage.message}`
