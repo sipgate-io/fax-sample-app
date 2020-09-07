@@ -154,7 +154,7 @@ export default function Main({credentials, logout}: Props) {
           onPress={submit}
         />
         <View style={styles.messageContainer}>
-          <Image style={styles.messageImage} source={messageImage}/>
+          <Image style={styles.messageImage} source={messageImage} />
           <Text
             style={{
               color:
