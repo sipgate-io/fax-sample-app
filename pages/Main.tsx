@@ -34,7 +34,7 @@ enum Message {
 
 export default function Main({credentials, logout}: Props) {
   const [recipient, setRecipient] = useState<string>('');
-  const [file, setFile] = useState<PickedFile | null>(null);
+  const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [message, setMessage] = useState<Message | undefined>(undefined);
@@ -50,7 +50,7 @@ export default function Main({credentials, logout}: Props) {
     setIsLoading(true);
     await sendFax(credentials, fax)
       .then(() => {
-        setFile(null);
+        setFile(undefined);
         setMessage(Message.SUCCESS);
       })
       .catch(() => setMessage(Message.ERROR))
@@ -124,13 +124,13 @@ export default function Main({credentials, logout}: Props) {
             setMessage(undefined);
             setFile(newFile);
           }}
-          file={file ?? undefined}
+          file={file}
         />
         <SubmitButton
           title="Senden"
           style={{marginTop: 16}}
           loading={isLoading}
-          disabled={file === null || recipient === '' || isLoading}
+          disabled={!file || recipient === '' || isLoading}
           onPress={submit}
         />
         <View style={styles.messageContainer}>
