@@ -55,7 +55,7 @@ function sanitizePhoneNumber(phoneNumber: string): string {
 }
 
 export default function Main({credentials, logout}: Props) {
-  const [recipient, setRecipient] = useState<string>('');
+  const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -98,7 +98,7 @@ export default function Main({credentials, logout}: Props) {
 
           if (!firstFaxNumber) {
             Alert.alert('no fax number belongs to this contact');
-            setRecipient('');
+            setRecipient(undefined);
             return;
           }
           setStatusMessage(undefined);
