@@ -33,7 +33,7 @@ enum Message {
 }
 
 export default function Main({credentials, logout}: Props) {
-  const [recipient, setRecipient] = useState<string | null>(null);
+  const [recipient, setRecipient] = useState<string>('');
   const [file, setFile] = useState<PickedFile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -74,7 +74,7 @@ export default function Main({credentials, logout}: Props) {
 
           if (!firstFaxNumber) {
             Alert.alert('no fax number belongs to this contact');
-            setRecipient(null);
+            setRecipient('');
             return;
           }
           setMessage(undefined);
