@@ -1,32 +1,33 @@
 import React, {ReactElement, ReactText} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Picker} from '@react-native-community/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
-interface DropDownItem {
+export interface DropDownItem {
   label: string;
   value: string;
 }
 
 interface Props {
   items: DropDownItem[];
-  selected: string | undefined;
-  onChange: (item: string) => void;
+  selected: DropDownItem | undefined;
+  onChange: (item: DropDownItem) => void;
 }
 
-const DropDown = (props: Props) => {
+export const DropDown = (props: Props) => {
   return (
     <View>
-      <Picker
-        selectedValue={props.selected}
-        onValueChange={(value: ReactText) => props.onChange(value + '')}>
-        {props.items.map((item: DropDownItem) => (
-          <Picker.Item label={item.label} value={item.value} />
-        ))}
-      </Picker>
+      <DropDownPicker
+        items={props.items}
+        containerStyle={{height: 40}}
+        showArrow={false}
+        placeholder="Select your fax line"
+        onChangeItem={(item: any) => {
+          props.onChange(item as DropDownItem);
+          console.log(item);
+        }}
+      />
     </View>
   );
 };
-
-export default DropDown;
 
 const styles = StyleSheet.create({});
