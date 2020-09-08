@@ -11,19 +11,19 @@ import {
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
-import {Credentials} from '../App';
 import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
 import LogoutButton from '../components/LogoutButton';
+import { SipgateIOClient } from 'sipgateio/dist/core';
 
-function sendFax(credentials: Credentials, fax: Fax): Promise<string> {
-  const client = sipgateIO(credentials);
+
+function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
   return faxModule.send(fax).then((res) => res.sessionId);
 }
 
 interface Props {
-  credentials: Credentials;
+  client: SipgateIOClient;
   logout: () => void;
 }
 
@@ -54,7 +54,8 @@ function sanitizePhoneNumber(phoneNumber: string): string {
   return phoneNumber.replace(/\D/g, '');
 }
 
-export default function Main({credentials, logout}: Props) {
+
+export default function Main({client, logout}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -70,7 +71,7 @@ export default function Main({credentials, logout}: Props) {
     };
 
     setIsLoading(true);
-    await sendFax(credentials, fax)
+    await sendFax(client, fax)
       .then(() => {
         setFile(undefined);
         setStatusMessage({status: SendFaxStatus.SUCCESS});
