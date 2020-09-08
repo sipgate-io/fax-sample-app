@@ -14,8 +14,29 @@ import FileInput, {PickedFile} from '../components/FileInput';
 import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
 import LogoutButton from '../components/LogoutButton';
-import { SipgateIOClient } from 'sipgateio/dist/core';
+import {SipgateIOClient} from 'sipgateio/dist/core';
+import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
 
+interface FaxlinesResponse {
+  items: FaxlineResponse[];
+}
+
+interface FaxlineResponse {
+  id: string;
+  alias: string;
+  tagline: string;
+  canSend: boolean;
+  canReceive: boolean;
+}
+
+async function getUserFaxlines(
+  client: SipgateIOClient,
+): Promise<FaxlineResponse[]> {
+  const webuserId = await getAuthenticatedWebuser(client);
+  return await client
+    .get<FaxlinesResponse>(`${webuserId}/faxlines`)
+    .then((response) => response.items);
+}
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
