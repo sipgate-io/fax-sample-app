@@ -3,6 +3,7 @@ import {StyleSheet, Image, View, StatusBar, Platform} from 'react-native';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
+import History from "./pages/History";
 
 import {useAsyncStorage} from '@react-native-community/async-storage';
 import {LOGIN_KEY} from './storage/keys';
