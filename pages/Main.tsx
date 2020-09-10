@@ -16,7 +16,7 @@ import {selectContact} from 'react-native-select-contact';
 import LogoutButton from '../components/LogoutButton';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
-import {FaxlineResponse} from './Login';
+import { FaxlineResponse } from '../App';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -60,9 +60,7 @@ export default function Main({client, logout, faxlines}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<string>(
-    !faxline ? '' : faxlines[0].id,
-  );
+  const [faxline, setFaxline] = useState<string>(faxlines && faxlines[0] ? faxlines[0].id : '');
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
@@ -152,6 +150,8 @@ export default function Main({client, logout, faxlines}: Props) {
           items={faxlines.map((line) => {
             return {label: line.alias, value: line.id};
           })}
+          style={styles.faxlinePicker}
+          placeholder="Select your fax line"
         />
       </View>
       <View style={styles.buttons}>
@@ -233,4 +233,7 @@ const styles = StyleSheet.create({
     height: 16,
     marginRight: 6,
   },
+  faxlinePicker: {
+    marginTop: 20
+  }
 });
