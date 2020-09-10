@@ -38,7 +38,7 @@ async function getUserFaxlines(
 
 export default function App() {
   const STATUSBAR_HEIGHT =
-    Platform.OS === 'ios' ? 20 : StatusBar.currentHeight || 20;
+    Platform.OS === 'ios' ? 50 : StatusBar.currentHeight || 20;
 
   const [client, setClient] = useState<SipgateIOClient | null | undefined>(
     undefined,

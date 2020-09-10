@@ -31,7 +31,7 @@ const LogoutButton = ({title, onPress, style}: Props) => {
 const styles = StyleSheet.create({
   touchable: {
     borderRadius: 100,
-    padding: 12,
+    //padding: 12,
     height: 32,
     width: 90,
     display: 'flex',
