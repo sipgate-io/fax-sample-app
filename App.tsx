@@ -54,6 +54,9 @@ export default function App() {
         const credentials = JSON.parse(credentialsString);
         const client = sipgateIO(credentials);
         setClient(client);
+        if (client) {
+          getUserFaxlines(client).then(setFaxlines).catch(console.log);
+        }
       } else {
         setClient(null);
       }
@@ -72,9 +75,7 @@ export default function App() {
     setClient(null);
   };
 
-  if (client) {
-    getUserFaxlines(client).then(setFaxlines).catch(console.log);
-  }
+  
 
   return (
     <BackgroundImage source={require('./assets/background.png')}>
