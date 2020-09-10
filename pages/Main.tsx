@@ -16,7 +16,7 @@ import {selectContact} from 'react-native-select-contact';
 import LogoutButton from '../components/LogoutButton';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
-import {DropDown, DropDownItem} from '../components/DropDown';
+import DropDown from '../components/DropDown';
 
 interface FaxlinesResponse {
   items: FaxlineResponse[];
@@ -80,7 +80,7 @@ export default function Main({client, logout}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<DropDownItem | undefined>(undefined);
+  const [faxline, setFaxline] = useState<string | undefined>(undefined);
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
