@@ -15,29 +15,8 @@ import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
 import LogoutButton from '../components/LogoutButton';
 import {SipgateIOClient} from 'sipgateio/dist/core';
-import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
 import DropDown from '../components/DropDown';
-
-interface FaxlinesResponse {
-  items: FaxlineResponse[];
-}
-
-interface FaxlineResponse {
-  id: string;
-  alias: string;
-  tagline: string;
-  canSend: boolean;
-  canReceive: boolean;
-}
-
-async function getUserFaxlines(
-  client: SipgateIOClient,
-): Promise<FaxlineResponse[]> {
-  const webuserId = await getAuthenticatedWebuser(client);
-  return await client
-    .get<FaxlinesResponse>(`${webuserId}/faxlines`)
-    .then((response) => response.items);
-}
+import {FaxlineResponse} from './Login';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -47,6 +26,7 @@ function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
 interface Props {
   client: SipgateIOClient;
   logout: () => void;
+  faxlines: FaxlineResponse[];
 }
 
 interface StatusMessage {
@@ -76,11 +56,13 @@ function sanitizePhoneNumber(phoneNumber: string): string {
   return phoneNumber.replace(/\D/g, '');
 }
 
-export default function Main({client, logout}: Props) {
+export default function Main({client, logout, faxlines}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<string | undefined>(undefined);
+  const [faxline, setFaxline] = useState<string>(
+    !faxline ? '' : faxlines[0].id,
+  );
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
@@ -89,7 +71,7 @@ export default function Main({client, logout}: Props) {
       to: sanitizePhoneNumber(recipient!),
       fileContent: file!.buffer,
       filename: file!.name,
-      faxlineId: 'f11',
+      faxlineId: faxline,
     };
 
     setIsLoading(true);
@@ -167,7 +149,9 @@ export default function Main({client, logout}: Props) {
         <DropDown
           selected={faxline}
           onChange={setFaxline}
-          items={[{label: 'Fax 1', value: 'fax1'}]}
+          items={faxlines.map((line) => {
+            return {label: line.alias, value: line.id};
+          })}
         />
       </View>
       <View style={styles.buttons}>
