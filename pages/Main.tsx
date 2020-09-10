@@ -120,7 +120,7 @@ export default function Main({client, logout}: Props) {
           const firstFaxNumber = faxNumbers[0];
 
           if (!firstFaxNumber) {
-            Alert.alert('no fax number belongs to this contact');
+            Alert.alert('No fax number belongs to this contact.');
             setRecipient(undefined);
             return;
           }
