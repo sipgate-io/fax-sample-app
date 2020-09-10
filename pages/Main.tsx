@@ -60,9 +60,7 @@ export default function Main({client, logout, faxlines}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<string>(
-    !faxline ? '' : faxlines[0].id,
-  );
+  const [faxline, setFaxline] = useState<string>(faxlines[0]?.id ?? '');
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
