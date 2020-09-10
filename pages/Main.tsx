@@ -16,7 +16,7 @@ import {selectContact} from 'react-native-select-contact';
 import LogoutButton from '../components/LogoutButton';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
-import { FaxlineResponse } from '../App';
+import {FaxlineResponse} from '../App';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -60,7 +60,7 @@ export default function Main({client, logout, faxlines}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<string>(faxlines && faxlines[0] ? faxlines[0].id : '');
+  const [faxline, setFaxline] = useState<string>('');
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
@@ -118,6 +118,10 @@ export default function Main({client, logout, faxlines}: Props) {
       ? require('../assets/icons/exclamation_mark.png')
       : undefined;
 
+  const faxlineDropDownItems = faxlines.map((line) => {
+    return {label: line.alias, value: line.id};
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -147,9 +151,7 @@ export default function Main({client, logout, faxlines}: Props) {
         <DropDown
           selected={faxline}
           onChange={setFaxline}
-          items={faxlines.map((line) => {
-            return {label: line.alias, value: line.id};
-          })}
+          items={faxlineDropDownItems}
           style={styles.faxlinePicker}
           placeholder="Select your fax line"
         />
@@ -166,7 +168,7 @@ export default function Main({client, logout, faxlines}: Props) {
           title="Senden"
           style={{marginTop: 16}}
           loading={isLoading}
-          disabled={!file || !recipient || isLoading}
+          disabled={!file || !recipient || isLoading || !faxline}
           onPress={submit}
         />
         <View style={styles.messageContainer}>
@@ -234,6 +236,6 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   faxlinePicker: {
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
