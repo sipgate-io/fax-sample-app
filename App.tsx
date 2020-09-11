@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {View, StatusBar, Platform} from 'react-native';
+import * as Keychain from 'react-native-keychain';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
 
-import {useAsyncStorage} from '@react-native-community/async-storage';
-import {LOGIN_KEY} from './storage/keys';
 import {BackgroundImage} from './components/BackgroundImage';
 import {SipgateIOClient, sipgateIO} from 'sipgateio/dist/core';
 import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
@@ -46,36 +45,38 @@ export default function App() {
 
   const [faxlines, setFaxlines] = useState<FaxlineResponse[]>([]);
 
-  const {setItem, getItem, removeItem} = useAsyncStorage(LOGIN_KEY);
-
   useEffect(() => {
-    getItem().then((credentialsString: string | null) => {
-      if (credentialsString !== null) {
-        const credentials = JSON.parse(credentialsString);
-        const client = sipgateIO(credentials);
-        setClient(client);
-        if (client) {
-          getUserFaxlines(client).then(setFaxlines).catch(console.log);
-        }
-      } else {
-        setClient(null);
-      }
-    });
+    retrieveLoginData();
   }, []);
 
-  const login = (username: string, password: string) => {
+  const retrieveLoginData = async () => {
+    const credentials = await Keychain.getGenericPassword();
+    if (credentials) {
+      const client = sipgateIO(credentials);
+      setClient(client);
+      if (client) {
+        getUserFaxlines(client).then(setFaxlines).catch(console.log);
+      }
+    } else {
+      setClient(null);
+    }
+  };
+
+  const login = async (username: string, password: string) => {
     const credentials = {username, password};
     const client = sipgateIO(credentials);
-    setItem(JSON.stringify(credentials));
+    console.log("io successfull");
+    
+    await Keychain.setGenericPassword(username, password);
+    console.log(credentials);
+    
     setClient(client);
   };
 
-  const logout = () => {
-    removeItem();
+  const logout = async () => {
+    await Keychain.resetGenericPassword();
     setClient(null);
   };
-
-  
 
   return (
     <BackgroundImage source={require('./assets/background.png')}>

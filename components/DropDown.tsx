@@ -67,8 +67,10 @@ const DropDown = (props: Props) => {
           style={styles.androidPickerText}
           selectedValue={props.selected}
           onValueChange={(value: ReactText) => props.onChange(value + '')}>
-          {props.items.map((item: DropDownItem) => {
-            return <Picker.Item label={item.label} value={item.value} />;
+          {props.items.map((item: DropDownItem, index) => {
+            return (
+              <Picker.Item label={item.label} value={item.value} key={index} />
+            );
           })}
         </Picker>
       </View>
