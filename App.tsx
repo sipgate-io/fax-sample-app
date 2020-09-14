@@ -65,11 +65,8 @@ export default function App() {
   const login = async (username: string, password: string) => {
     const credentials = {username, password};
     const client = sipgateIO(credentials);
-    console.log("io successfull");
-    
     await Keychain.setGenericPassword(username, password);
-    console.log(credentials);
-    
+
     setClient(client);
   };
 
