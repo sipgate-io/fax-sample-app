@@ -17,7 +17,7 @@ interface Props {
 function renderHistoryItem(item: FaxHistoryEntry) {
   return (
     <View style={styles.listItem}>
-      <Text style={styles.item}>{typeof item.created}</Text>
+      <Text style={styles.item}>{item.created.toLocaleDateString()}</Text>
       <Text style={styles.item}>{item.faxStatus}</Text>
     </View>
   );
@@ -27,14 +27,25 @@ export default function History({client, logout}: Props) {
   const [history, setHistory] = useState<FaxHistoryEntry[]>();
   const historyModule = useMemo(() => createHistoryModule(client), [client]);
 
-  function fetchFaxHistoryEntries() {
-    historyModule
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+
+    fetchFaxHistoryEntries()
+      .catch(Alert.alert)
+      .finally(() => setRefreshing(false));
+  };
+
+  function fetchFaxHistoryEntries(): Promise<void> {
+    return historyModule
       .fetchAll({
         types: [HistoryEntryType.FAX],
         directions: [HistoryDirection.OUTGOING],
       })
-      .then((history) => setHistory(history as FaxHistoryEntry[]))
-      .catch(Alert.alert);
+      .then((historyEntries) =>
+        setHistory(historyEntries as FaxHistoryEntry[]),
+      );
   }
 
   useEffect(() => {
@@ -52,7 +63,8 @@ export default function History({client, logout}: Props) {
       </View>
       <Text style={styles.title}>Fax History</Text>
       <FlatList
-        onRefresh={fetchFaxHistoryEntries}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
         data={history}
         renderItem={({item}) => renderHistoryItem(item)}
       />
