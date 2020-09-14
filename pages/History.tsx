@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Alert, FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import LogoutButton from '../components/LogoutButton';
 import {
@@ -14,19 +14,10 @@ interface Props {
   logout: () => void;
 }
 
-function getFaxHistoryEntries(
-  client: SipgateIOClient,
-): Promise<FaxHistoryEntry[]> {
-  const historyModule = createHistoryModule(client);
-  return historyModule.fetchAll({
-    types: [HistoryEntryType.FAX],
-    directions: [HistoryDirection.OUTGOING],
-  }) as Promise<FaxHistoryEntry[]>;
-}
-
 function renderHistoryItem(item: FaxHistoryEntry) {
   return (
-    <View>
+    <View style={styles.listItem}>
+      <Text style={styles.item}>{typeof item.created}</Text>
       <Text style={styles.item}>{item.faxStatus}</Text>
     </View>
   );
@@ -34,10 +25,21 @@ function renderHistoryItem(item: FaxHistoryEntry) {
 
 export default function History({client, logout}: Props) {
   const [history, setHistory] = useState<FaxHistoryEntry[]>();
+  const historyModule = useMemo(() => createHistoryModule(client), [client]);
+
+  function fetchFaxHistoryEntries() {
+    historyModule
+      .fetchAll({
+        types: [HistoryEntryType.FAX],
+        directions: [HistoryDirection.OUTGOING],
+      })
+      .then((history) => setHistory(history as FaxHistoryEntry[]))
+      .catch(Alert.alert);
+  }
 
   useEffect(() => {
-    getFaxHistoryEntries(client).then(setHistory).catch(console.error);
-  });
+    fetchFaxHistoryEntries();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -50,6 +52,7 @@ export default function History({client, logout}: Props) {
       </View>
       <Text style={styles.title}>Fax History</Text>
       <FlatList
+        onRefresh={fetchFaxHistoryEntries}
         data={history}
         renderItem={({item}) => renderHistoryItem(item)}
       />
@@ -79,5 +82,9 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 8,
+  },
+  listItem: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 });
