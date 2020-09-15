@@ -89,26 +89,28 @@ export default function App() {
     <BackgroundImage source={require('./assets/background.png')}>
       <StatusBar translucent backgroundColor="white" barStyle="dark-content" />
       <View style={{padding: 32, paddingTop: STATUSBAR_HEIGHT + 2}}>
-        <View style={styles.header}>
-          <Image
-            style={styles.logo}
-            source={require('./assets/images/sipgateIO.png')}
-          />
-          <Button color="primary" title="Logout" onPress={logout} />
-          {client && activePage === ActivePage.MAIN ? (
-            <Button
-              color="secondary"
-              title="History"
-              onPress={() => setActivePage(ActivePage.HISTORY)}
+        {client && (
+          <View style={styles.header}>
+            <Image
+              style={styles.logo}
+              source={require('./assets/images/sipgateIO.png')}
             />
-          ) : (
-            <Button
-              color="secondary"
-              title="Back"
-              onPress={() => setActivePage(ActivePage.MAIN)}
-            />
-          )}
-        </View>
+            <Button color="primary" title="Logout" onPress={logout} />
+            {client && activePage === ActivePage.MAIN ? (
+              <Button
+                color="secondary"
+                title="History"
+                onPress={() => setActivePage(ActivePage.HISTORY)}
+              />
+            ) : (
+              <Button
+                color="secondary"
+                title="Back"
+                onPress={() => setActivePage(ActivePage.MAIN)}
+              />
+            )}
+          </View>
+        )}
         {!client && <Login login={login} />}
         {client && activePage === ActivePage.MAIN && (
           <Main client={client} logout={logout} faxlines={faxlines} />
