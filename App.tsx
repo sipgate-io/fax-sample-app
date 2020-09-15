@@ -1,22 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import {View, StatusBar, Platform} from 'react-native';
+import {View, StatusBar, Platform, Image, StyleSheet} from 'react-native';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
-import History from "./pages/History";
+import History from './pages/History';
 
 import {useAsyncStorage} from '@react-native-community/async-storage';
 import {LOGIN_KEY} from './storage/keys';
 import {BackgroundImage} from './components/BackgroundImage';
 import {SipgateIOClient, sipgateIO} from 'sipgateio/dist/core';
 import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
+import Button from './components/Button';
+
+export enum ActivePage {
+  MAIN,
+  HISTORY,
+}
 
 export interface Credentials {
   username: string;
   password: string;
 }
 
-interface FaxlinesResponse {
+export interface FaxlinesResponse {
   items: FaxlineResponse[];
 }
 
@@ -46,6 +52,8 @@ export default function App() {
   );
 
   const [faxlines, setFaxlines] = useState<FaxlineResponse[]>([]);
+
+  const [activePage, setActivePage] = useState<ActivePage>(ActivePage.MAIN);
 
   const {setItem, getItem, removeItem} = useAsyncStorage(LOGIN_KEY);
 
@@ -81,9 +89,48 @@ export default function App() {
     <BackgroundImage source={require('./assets/background.png')}>
       <StatusBar translucent backgroundColor="white" barStyle="dark-content" />
       <View style={{padding: 32, paddingTop: STATUSBAR_HEIGHT + 2}}>
-        {client === null && <Login login={login} />}
-        {client && <Main client={client} logout={logout} faxlines={faxlines} />}
+        <View style={styles.header}>
+          <Image
+            style={styles.logo}
+            source={require('./assets/images/sipgateIO.png')}
+          />
+          <Button color="primary" title="Logout" onPress={logout} />
+          {client && activePage === ActivePage.MAIN ? (
+            <Button
+              color="secondary"
+              title="History"
+              onPress={() => setActivePage(ActivePage.HISTORY)}
+            />
+          ) : (
+            <Button
+              color="secondary"
+              title="Back"
+              onPress={() => setActivePage(ActivePage.MAIN)}
+            />
+          )}
+        </View>
+        {!client && <Login login={login} />}
+        {client && activePage === ActivePage.MAIN && (
+          <Main client={client} logout={logout} faxlines={faxlines} />
+        )}
+        {client && activePage === ActivePage.HISTORY && (
+          <History client={client} logout={logout} />
+        )}
       </View>
     </BackgroundImage>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  logo: {
+    width: 8 * 16,
+    height: 4 * 16,
+    resizeMode: 'contain',
+  },
+});

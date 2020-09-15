@@ -54,13 +54,6 @@ export default function History({client, logout}: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          style={styles.logo}
-          source={require('../assets/images/sipgateIO.png')}
-        />
-        <Button title="Logout" onPress={logout} />
-      </View>
       <Text style={styles.title}>Fax History</Text>
       <FlatList
         refreshing={refreshing}

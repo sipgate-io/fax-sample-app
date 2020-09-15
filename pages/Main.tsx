@@ -16,7 +16,7 @@ import {selectContact} from 'react-native-select-contact';
 import Button from '../components/Button';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
-import {FaxlineResponse} from './Login';
+import {FaxlineResponse} from '../App';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -120,14 +120,6 @@ export default function Main({client, logout, faxlines}: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          style={styles.logo}
-          source={require('../assets/images/sipgateIO.png')}
-        />
-        <Button color="primary" title="Logout" onPress={logout} />
-        <Button color="secondary" title="History" />
-      </View>
       <Text style={styles.title}>Fax Machine</Text>
       <Text style={styles.description}>
         Select a <Text style={styles.bold}>PDF file</Text> in{' '}
