@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Alert, FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import LogoutButton from '../components/LogoutButton';
+import Button from '../components/Button';
 import {
   SipgateIOClient,
   FaxHistoryEntry,
@@ -59,7 +59,7 @@ export default function History({client, logout}: Props) {
           style={styles.logo}
           source={require('../assets/images/sipgateIO.png')}
         />
-        <LogoutButton title="Logout" onPress={logout} />
+        <Button title="Logout" onPress={logout} />
       </View>
       <Text style={styles.title}>Fax History</Text>
       <FlatList
