@@ -6,6 +6,7 @@ import {
   Alert,
   PermissionsAndroid,
   Image,
+  Platform,
 } from 'react-native';
 
 import Input from '../components/Input';
@@ -85,30 +86,38 @@ export default function Main({client, logout, faxlines}: Props) {
   };
 
   const pickContact = async () => {
+    if (Platform.OS === 'ios') {
+      return getFaxnumberFromContactPicker();
+    }
+
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
       .then((status) => {
         if (status !== 'granted') {
           return;
         }
 
-        return selectContact().then((contact) => {
-          if (!contact) return;
-
-          const faxNumbers = contact.phones.filter((phone) =>
-            phone.type.toLowerCase().includes('fax'),
-          );
-          const firstFaxNumber = faxNumbers[0];
-
-          if (!firstFaxNumber) {
-            Alert.alert('No fax number belongs to this contact.');
-            setRecipient(undefined);
-            return;
-          }
-          setStatusMessage(undefined);
-          setRecipient(firstFaxNumber.number);
-        });
+        getFaxnumberFromContactPicker();
       })
       .catch(console.error);
+  };
+
+  const getFaxnumberFromContactPicker = () => {
+    return selectContact().then((contact) => {
+      if (!contact) return;
+
+      const faxNumbers = contact.phones.filter((phone) =>
+        phone.type.toLowerCase().includes('fax'),
+      );
+      const firstFaxNumber = faxNumbers[0];
+
+      if (!firstFaxNumber) {
+        Alert.alert('No fax number belongs to this contact.');
+        setRecipient(undefined);
+        return;
+      }
+      setStatusMessage(undefined);
+      setRecipient(firstFaxNumber.number);
+    });
   };
 
   const messageImage =
