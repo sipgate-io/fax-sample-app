@@ -2,8 +2,6 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  NativeSyntheticEvent,
-  NativeTouchEvent,
   TouchableOpacity,
   StyleProp,
   ViewStyle,
