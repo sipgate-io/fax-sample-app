@@ -9,6 +9,7 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import {loadingAnimation} from '../assets/animations';
 
 export interface Props {
   disabled?: boolean;
@@ -29,10 +30,7 @@ const SubmitButton = ({title, onPress, style, disabled, loading}: Props) => {
         style,
       ]}>
       {loading ? (
-        <Image
-          style={{width: 24, height: 24}}
-          source={require('../assets/animations/loading_animation_button.gif')}
-        />
+        <Image style={{width: 24, height: 24}} source={loadingAnimation} />
       ) : (
         <Text style={styles.text}>{title}</Text>
       )}

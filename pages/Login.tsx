@@ -4,6 +4,7 @@ import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 
 import {sipgateIO, createSettingsModule} from 'sipgateio';
+import {sipgateIOLogo} from '../assets/images';
 
 async function attemptLogin(username: string, password: string) {
   const sipgateio = sipgateIO({
@@ -47,10 +48,7 @@ export default function Login({login}: Props) {
 
   return (
     <View>
-      <Image
-        style={styles.logo}
-        source={require('../assets/images/sipgateIO.png')}
-      />
+      <Image style={styles.logo} source={sipgateIOLogo} />
       <Text style={styles.header}>Log in</Text>
       <Text style={styles.description}>
         Log in to your sipgate basic, simquadrat or sipgate team account.

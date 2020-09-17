@@ -17,6 +17,7 @@ import Button from '../components/Button';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
 import {FaxlineResponse} from '../App';
+import {contactsIcon, exclamationMarkIcon, successIcon} from '../assets/icons';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -113,9 +114,9 @@ export default function Main({client, logout, faxlines}: Props) {
 
   const messageImage =
     statusMessage?.status === SendFaxStatus.SUCCESS
-      ? require('../assets/icons/success.png')
+      ? successIcon
       : statusMessage?.status === SendFaxStatus.ERROR
-      ? require('../assets/icons/exclamation_mark.png')
+      ? exclamationMarkIcon
       : undefined;
 
   return (
@@ -134,7 +135,7 @@ export default function Main({client, logout, faxlines}: Props) {
             setRecipient(text);
           }}
           value={recipient}
-          icon={require('../assets/icons/contacts.png')}
+          icon={contactsIcon}
           onIconClick={pickContact}
         />
         <DropDown
