@@ -1,20 +1,17 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Alert, FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import Button from '../components/Button';
 import {
   SipgateIOClient,
   FaxHistoryEntry,
   createHistoryModule,
   HistoryDirection,
   HistoryEntryType,
-  FaxStatus,
   FaxStatusType,
 } from 'sipgateio';
 import {contactsIcon} from '../assets/icons';
 
 interface Props {
   client: SipgateIOClient;
-  logout: () => void;
 }
 
 interface FaxStatusIndicator {
@@ -76,7 +73,7 @@ function renderHistoryItem(item: FaxHistoryEntry) {
   );
 }
 
-export default function History({client, logout}: Props) {
+export default function History({client}: Props) {
   const [history, setHistory] = useState<FaxHistoryEntry[]>();
   const historyModule = useMemo(() => createHistoryModule(client), [client]);
 
@@ -96,9 +93,9 @@ export default function History({client, logout}: Props) {
         types: [HistoryEntryType.FAX],
         directions: [HistoryDirection.OUTGOING],
       })
-      .then((historyEntries) =>
-        setHistory(historyEntries as FaxHistoryEntry[]),
-      );
+      .then((historyEntries) => {
+        setHistory(historyEntries as FaxHistoryEntry[]);
+      });
   }
 
   useEffect(() => {

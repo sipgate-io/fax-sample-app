@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, StatusBar, Platform, Image, StyleSheet} from 'react-native';
+import {View, StatusBar, Platform, StyleSheet} from 'react-native';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
@@ -7,13 +7,15 @@ import History from './pages/History';
 
 import {useAsyncStorage} from '@react-native-community/async-storage';
 import {LOGIN_KEY} from './storage/keys';
-import {BackgroundImage} from './components/BackgroundImage';
 import {SipgateIOClient, sipgateIO} from 'sipgateio/dist/core';
 import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
-import Button from './components/Button';
+import AppHeader from './components/AppHeader';
+import {BackgroundImage} from './components/BackgroundImage';
+import {sipgateIOPattern} from './assets/images';
 
 export enum ActivePage {
   MAIN,
+  LOGIN,
   HISTORY,
 }
 
@@ -43,17 +45,17 @@ async function getUserFaxlines(
     .then((response) => response.items);
 }
 
-export default function App() {
-  const STATUSBAR_HEIGHT =
-    Platform.OS === 'ios' ? 20 : StatusBar.currentHeight || 20;
+const STATUSBAR_HEIGHT =
+  Platform.OS === 'ios' ? 20 : StatusBar.currentHeight || 20;
 
+export default function App() {
   const [client, setClient] = useState<SipgateIOClient | null | undefined>(
     undefined,
   );
 
   const [faxlines, setFaxlines] = useState<FaxlineResponse[]>([]);
 
-  const [activePage, setActivePage] = useState<ActivePage>(ActivePage.MAIN);
+  const [activePage, setActivePage] = useState<ActivePage>();
 
   const {setItem, getItem, removeItem} = useAsyncStorage(LOGIN_KEY);
 
@@ -62,8 +64,10 @@ export default function App() {
       if (credentialsString !== null) {
         const credentials = JSON.parse(credentialsString);
         const client = sipgateIO(credentials);
+        setActivePage(ActivePage.MAIN);
         setClient(client);
       } else {
+        setActivePage(ActivePage.LOGIN);
         setClient(null);
       }
     });
@@ -73,11 +77,13 @@ export default function App() {
     const credentials = {username, password};
     const client = sipgateIO(credentials);
     setItem(JSON.stringify(credentials));
+    setActivePage(ActivePage.MAIN);
     setClient(client);
   };
 
   const logout = () => {
     removeItem();
+    setActivePage(ActivePage.LOGIN);
     setClient(null);
   };
 
@@ -85,45 +91,42 @@ export default function App() {
     getUserFaxlines(client).then(setFaxlines).catch(console.log);
   }
 
+  const renderActivePage = (page: ActivePage) => {
+    if (page === ActivePage.LOGIN || !client) {
+      return <Login login={login} />;
+    } else if (page === ActivePage.MAIN) {
+      return <Main client={client} faxlines={faxlines} />;
+    } else if (page === ActivePage.HISTORY) {
+      return <History client={client} />;
+    } else {
+      return null;
+    }
+  };
+
   return (
-    <BackgroundImage source={require('./assets/background.png')}>
+    <BackgroundImage source={sipgateIOPattern}>
       <StatusBar translucent backgroundColor="white" barStyle="dark-content" />
-      <View style={{padding: 32, paddingTop: STATUSBAR_HEIGHT + 2}}>
-        {client && (
-          <View style={styles.header}>
-            <Image
-              style={styles.logo}
-              source={require('./assets/images/sipgateIO.png')}
-            />
-            <Button color="primary" title="Logout" onPress={logout} />
-            {client && activePage === ActivePage.MAIN ? (
-              <Button
-                color="secondary"
-                title="History"
-                onPress={() => setActivePage(ActivePage.HISTORY)}
-              />
-            ) : (
-              <Button
-                color="secondary"
-                title="Back"
-                onPress={() => setActivePage(ActivePage.MAIN)}
-              />
-            )}
-          </View>
-        )}
-        {!client && <Login login={login} />}
-        {client && activePage === ActivePage.MAIN && (
-          <Main client={client} logout={logout} faxlines={faxlines} />
-        )}
-        {client && activePage === ActivePage.HISTORY && (
-          <History client={client} logout={logout} />
-        )}
-      </View>
+      {activePage !== undefined ? (
+        <View style={styles.appContent}>
+          <AppHeader
+            logout={logout}
+            activePage={activePage}
+            setActivePage={setActivePage}
+            showControls={activePage !== ActivePage.LOGIN}
+          />
+          {renderActivePage(activePage)}
+        </View>
+      ) : null}
     </BackgroundImage>
   );
 }
 
 const styles = StyleSheet.create({
+  appContent: {
+    padding: 32,
+    paddingTop: STATUSBAR_HEIGHT + 2,
+  },
+
   header: {
     display: 'flex',
     flexDirection: 'row',

@@ -11,9 +11,8 @@ import {
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
-import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
+import {createFaxModule, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
-import Button from '../components/Button';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
 import {FaxlineResponse} from '../App';
@@ -26,7 +25,6 @@ function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
 
 interface Props {
   client: SipgateIOClient;
-  logout: () => void;
   faxlines: FaxlineResponse[];
 }
 
@@ -57,7 +55,7 @@ function sanitizePhoneNumber(phoneNumber: string): string {
   return phoneNumber.replace(/\D/g, '');
 }
 
-export default function Main({client, logout, faxlines}: Props) {
+export default function Main({client, faxlines}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);

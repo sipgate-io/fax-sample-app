@@ -30,10 +30,8 @@ export default function Login({login}: Props) {
     setIsLoading(true);
     attemptLogin(username, password)
       .then(() => login(username, password))
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-      });
+      .catch(setError)
+      .finally(() => setIsLoading(true));
   };
 
   const setError = (error: Error) => {
@@ -48,7 +46,6 @@ export default function Login({login}: Props) {
 
   return (
     <View>
-      <Image style={styles.logo} source={sipgateIOLogo} />
       <Text style={styles.header}>Log in</Text>
       <Text style={styles.description}>
         Log in to your sipgate basic, simquadrat or sipgate team account.
@@ -127,10 +124,5 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     marginRight: 6,
-  },
-  logo: {
-    width: 8 * 16,
-    height: 4 * 16,
-    resizeMode: 'contain',
   },
 });
