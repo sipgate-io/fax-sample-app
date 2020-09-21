@@ -1,8 +1,9 @@
 import React, {Fragment} from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Button from './Button';
 import {ActivePage} from '../App';
 import {sipgateIOLogo} from '../../assets/images';
+import {historyIcon, logoutIcon, faxIcon} from '../../assets/icons';
 
 interface Props {
   activePage: ActivePage;
@@ -21,22 +22,21 @@ const AppHeader = ({
     <View style={styles.header}>
       <Image style={styles.logo} source={sipgateIOLogo} />
       {showControls && (
-        <Fragment>
+        <View style={styles.navigation}>
           {activePage === ActivePage.MAIN ? (
-            <Button
-              color="secondary"
-              title="History"
-              onPress={() => setActivePage(ActivePage.HISTORY)}
-            />
+            <TouchableOpacity onPress={() => setActivePage(ActivePage.HISTORY)}>
+              <Image style={styles.icon} source={historyIcon} />
+            </TouchableOpacity>
           ) : (
-            <Button
-              color="secondary"
-              title="Back"
-              onPress={() => setActivePage(ActivePage.MAIN)}
-            />
+            <TouchableOpacity onPress={() => setActivePage(ActivePage.MAIN)}>
+              <Image style={styles.icon} source={faxIcon} />
+            </TouchableOpacity>
           )}
-          <Button color="primary" title="Logout" onPress={logout} />
-        </Fragment>
+
+          <TouchableOpacity onPress={logout}>
+            <Image style={styles.icon} source={logoutIcon} />
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -56,6 +56,14 @@ const styles = StyleSheet.create({
     width: 8 * 16,
     height: 4 * 16,
     resizeMode: 'contain',
+  },
+  icon: {
+    height: 24,
+    resizeMode: 'contain',
+  },
+  navigation: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 });
 
