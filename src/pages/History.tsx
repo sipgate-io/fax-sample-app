@@ -8,7 +8,14 @@ import {
   HistoryEntryType,
   FaxStatusType,
 } from 'sipgateio';
-import {contactsIcon} from '../../assets/icons';
+import {
+  contactsIcon,
+  failedIcon,
+  pendingIcon,
+  scheduledIcon,
+  sendingIcon,
+  sentIcon,
+} from '../../assets/icons';
 
 interface Props {
   client: SipgateIOClient;
@@ -23,23 +30,23 @@ const getFaxStatusIndicator = (status: FaxStatusType): FaxStatusIndicator => {
   return {
     [FaxStatusType.FAILED]: {
       text: 'failed to send at',
-      icon: contactsIcon,
+      icon: failedIcon,
     },
     [FaxStatusType.PENDING]: {
       text: 'pending since',
-      icon: contactsIcon,
+      icon: pendingIcon,
     },
     [FaxStatusType.SCHEDULED]: {
       text: 'scheduled for',
-      icon: contactsIcon,
+      icon: scheduledIcon,
     },
     [FaxStatusType.SENDING]: {
       text: 'sending since',
-      icon: contactsIcon,
+      icon: sendingIcon,
     },
     [FaxStatusType.SENT]: {
       text: 'successfully sent at',
-      icon: contactsIcon,
+      icon: sentIcon,
     },
   }[status];
 };
