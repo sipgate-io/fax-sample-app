@@ -22,7 +22,6 @@ const AppHeader = ({
       <Image style={styles.logo} source={sipgateIOLogo} />
       {showControls && (
         <Fragment>
-          <Button color="primary" title="Logout" onPress={logout} />
           {activePage === ActivePage.MAIN ? (
             <Button
               color="secondary"
@@ -36,6 +35,7 @@ const AppHeader = ({
               onPress={() => setActivePage(ActivePage.MAIN)}
             />
           )}
+          <Button color="primary" title="Logout" onPress={logout} />
         </Fragment>
       )}
     </View>
