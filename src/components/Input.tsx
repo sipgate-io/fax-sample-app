@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     borderColor: '#ff0000',
   },
   icon: {
-    width: 24,
-    height: 24,
+    width: 16,
+    height: 16,
     margin: 'auto',
   },
   iconContainer: {

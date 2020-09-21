@@ -145,14 +145,15 @@ const styles = StyleSheet.create({
   },
   historyList: {
     height: 300,
+    marginTop: 8,
   },
   historyItem: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   historyItemLeft: {
     display: 'flex',
@@ -182,8 +183,8 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   faxStatusIndicatorIcon: {
-    marginLeft: 4,
-    width: 32,
-    height: 32,
+    marginLeft: 8,
+    width: 24,
+    height: 24,
   },
 });
