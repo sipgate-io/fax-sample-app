@@ -5,6 +5,7 @@ import {Buffer} from 'buffer';
 
 import DocumentPicker from 'react-native-document-picker';
 import * as RNFS from 'react-native-fs';
+import {fileIcon} from '../assets/icons';
 
 export interface PickedFile {
   name: string;
@@ -43,7 +44,7 @@ const FileChooser = ({file, onPress}: Props) => {
 
   return (
     <TouchableOpacity onPress={onPressInner} style={styles.touchable}>
-      <Image style={styles.img} source={require('../assets/icons/file.png')} />
+      <Image style={styles.img} source={fileIcon} />
       <Text numberOfLines={1} style={styles.text}>
         {file ? file.name : 'Datei auswählen'}
       </Text>

@@ -12,12 +12,12 @@ import {
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
-import {createFaxModule, sipgateIO, Fax} from 'sipgateio';
+import {createFaxModule, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
-import LogoutButton from '../components/LogoutButton';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
 import {FaxlineResponse} from '../App';
+import {contactsIcon, exclamationMarkIcon, successIcon} from '../assets/icons';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -26,7 +26,6 @@ function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
 
 interface Props {
   client: SipgateIOClient;
-  logout: () => void;
   faxlines: FaxlineResponse[];
 }
 
@@ -57,11 +56,11 @@ function sanitizePhoneNumber(phoneNumber: string): string {
   return phoneNumber.replace(/\D/g, '');
 }
 
-export default function Main({client, logout, faxlines}: Props) {
+export default function Main({client, faxlines}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<string>('');
+  const [faxline, setFaxline] = useState<string>(faxlines[0]?.id ?? '');
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
@@ -122,9 +121,9 @@ export default function Main({client, logout, faxlines}: Props) {
 
   const messageImage =
     statusMessage?.status === SendFaxStatus.SUCCESS
-      ? require('../assets/icons/success.png')
+      ? successIcon
       : statusMessage?.status === SendFaxStatus.ERROR
-      ? require('../assets/icons/exclamation_mark.png')
+      ? exclamationMarkIcon
       : undefined;
 
   const faxlineDropDownItems = faxlines.map((line) => {
@@ -133,13 +132,6 @@ export default function Main({client, logout, faxlines}: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          style={styles.logo}
-          source={require('../assets/images/sipgateIO.png')}
-        />
-        <LogoutButton title="Logout" onPress={logout} />
-      </View>
       <Text style={styles.title}>Fax Machine</Text>
       <Text style={styles.description}>
         Select a <Text style={styles.bold}>PDF file</Text> in{' '}
@@ -154,7 +146,7 @@ export default function Main({client, logout, faxlines}: Props) {
             setRecipient(text);
           }}
           value={recipient}
-          icon={require('../assets/icons/contacts.png')}
+          icon={contactsIcon}
           onIconClick={pickContact}
         />
         <DropDown

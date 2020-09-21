@@ -2,28 +2,29 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  NativeSyntheticEvent,
-  NativeTouchEvent,
   TouchableOpacity,
   StyleProp,
   ViewStyle,
 } from 'react-native';
 
 export interface Props {
+  color: 'primary' | 'secondary';
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
   title: string;
 }
 
-const LogoutButton = ({title, onPress, style}: Props) => {
+const Button = ({color, title, onPress, style}: Props) => {
+  let colorStyle: StyleSheet.NamedStyles<any> =
+    color === 'primary' ? primaryStyles : secondaryStyles;
   return (
     <TouchableOpacity
       onPress={() => {
         onPress && onPress();
       }}
-      style={[styles.touchable, style]}>
-      <Text style={styles.text}>{title}</Text>
+      style={[styles.touchable, style, colorStyle.touchable]}>
+      <Text style={[styles.text, colorStyle.text]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -37,15 +38,34 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderColor: 'black',
     borderWidth: 2,
   },
 
   text: {
     fontSize: 16,
+  },
+});
+
+const primaryStyles = StyleSheet.create({
+  touchable: {
+    backgroundColor: 'white',
+    borderColor: 'black',
+  },
+
+  text: {
     color: 'black',
   },
 });
 
-export default LogoutButton;
+const secondaryStyles = StyleSheet.create({
+  touchable: {
+    backgroundColor: 'black',
+    borderColor: 'black',
+  },
+
+  text: {
+    color: 'white',
+  },
+});
+
+export default Button;
