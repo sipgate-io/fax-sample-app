@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,12 +16,33 @@ import {createFaxModule, Fax} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
-import {FaxlineResponse} from '../App';
 import {
   contactsIcon,
   exclamationMarkIcon,
   successIcon,
 } from '../../assets/icons';
+import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
+
+export interface Faxline {
+  id: string;
+  alias: string;
+  tagline: string;
+  canSend: boolean;
+  canReceive: boolean;
+}
+
+interface FaxlinesResponse {
+  items: Faxline[];
+}
+
+export async function getUserFaxlines(
+  client: SipgateIOClient,
+): Promise<Faxline[]> {
+  const webuserId = await getAuthenticatedWebuser(client);
+  return await client
+    .get<FaxlinesResponse>(`${webuserId}/faxlines`)
+    .then((response) => response.items);
+}
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -30,7 +51,6 @@ function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
 
 interface Props {
   client: SipgateIOClient;
-  faxlines: FaxlineResponse[];
 }
 
 interface StatusMessage {
@@ -60,13 +80,19 @@ function sanitizePhoneNumber(phoneNumber: string): string {
   return phoneNumber.replace(/\D/g, '');
 }
 
-export default function Main({client, faxlines}: Props) {
+export default function Main({client}: Props) {
   const [recipient, setRecipient] = useState<string>();
   const [file, setFile] = useState<PickedFile>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [faxline, setFaxline] = useState<string>(faxlines[0]?.id ?? '');
+
+  const [faxlines, setFaxlines] = useState<Faxline[]>([]);
+  const [faxline, setFaxline] = useState<string>('');
 
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
+
+  useEffect(() => {
+    getUserFaxlines(client).then(setFaxlines).catch(Alert.alert);
+  }, []);
 
   const submit = async () => {
     const fax: Fax = {

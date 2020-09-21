@@ -8,7 +8,6 @@ import History from './pages/History';
 
 import {BackgroundImage} from './components/BackgroundImage';
 import {SipgateIOClient, sipgateIO} from 'sipgateio/dist/core';
-import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
 import AppHeader from './components/AppHeader';
 import {sipgateIOPattern} from '../assets/images';
 
@@ -23,38 +22,13 @@ export interface Credentials {
   password: string;
 }
 
-export interface FaxlinesResponse {
-  items: FaxlineResponse[];
-}
-
-export interface FaxlineResponse {
-  id: string;
-  alias: string;
-  tagline: string;
-  canSend: boolean;
-  canReceive: boolean;
-}
-
-async function getUserFaxlines(
-  client: SipgateIOClient,
-): Promise<FaxlineResponse[]> {
-  const webuserId = await getAuthenticatedWebuser(client);
-  return await client
-    .get<FaxlinesResponse>(`${webuserId}/faxlines`)
-    .then((response) => response.items);
-}
-
 const STATUSBAR_HEIGHT =
   Platform.OS === 'ios' ? 20 : StatusBar.currentHeight || 20;
 
 export default function App() {
   const [activePage, setActivePage] = useState<ActivePage>();
 
-  const [client, setClient] = useState<SipgateIOClient | null | undefined>(
-    undefined,
-  );
-
-  const [faxlines, setFaxlines] = useState<FaxlineResponse[]>([]);
+  const [client, setClient] = useState<SipgateIOClient | null>();
 
   useEffect(() => {
     retrieveLoginData();
@@ -66,10 +40,6 @@ export default function App() {
       const client = sipgateIO(credentials);
       setClient(client);
       setActivePage(ActivePage.MAIN);
-      getUserFaxlines(client)
-        .then(setFaxlines)
-        .then(() => console.log(faxlines))
-        .catch(console.log);
     } else {
       setClient(null);
       setActivePage(ActivePage.LOGIN);
@@ -94,7 +64,7 @@ export default function App() {
     if (page === ActivePage.LOGIN || !client) {
       return <Login login={login} />;
     } else if (page === ActivePage.MAIN) {
-      return <Main client={client} faxlines={faxlines} />;
+      return <Main client={client} />;
     } else if (page === ActivePage.HISTORY) {
       return <History client={client} />;
     } else {
