@@ -60,14 +60,14 @@ const DropDown = (props: Props) => {
   }
 
   function renderAndroidPicker() {
-    props.items.unshift({label: props.placeholder, value: ''});
+    const items = [{label: props.placeholder, value: ''}, ...props.items];
     return (
       <View style={styles.androidPicker}>
         <Picker
           style={styles.androidPickerText}
           selectedValue={props.selected}
-          onValueChange={(value: ReactText) => props.onChange(value + '')}>
-          {props.items.map((item: DropDownItem, index) => {
+          onValueChange={(value: ReactText) => props.onChange(String(value))}>
+          {items.map((item, index) => {
             return (
               <Picker.Item label={item.label} value={item.value} key={index} />
             );
