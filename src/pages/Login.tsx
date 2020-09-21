@@ -31,7 +31,7 @@ export default function Login({login}: Props) {
     attemptLogin(username, password)
       .then(() => login(username, password))
       .catch(setError)
-      .finally(() => setIsLoading(true));
+      .finally(() => setIsLoading(false));
   };
 
   const setError = (error: Error) => {
