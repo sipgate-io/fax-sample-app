@@ -4,7 +4,7 @@ import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 
 import {sipgateIO, createSettingsModule} from 'sipgateio';
-import {sipgateIOLogo} from '../assets/images';
+import {exclamationMarkIcon} from '../../assets/icons';
 
 async function attemptLogin(username: string, password: string) {
   const sipgateio = sipgateIO({
@@ -70,10 +70,7 @@ export default function Login({login}: Props) {
       />
       <View style={styles.errorTextContainer}>
         {errorMessage ? (
-          <Image
-            source={require('../assets/icons/exclamation_mark.png')}
-            style={styles.exclamationMark}
-          />
+          <Image source={exclamationMarkIcon} style={styles.exclamationMark} />
         ) : undefined}
         <Text style={styles.errorText}>{errorMessage}</Text>
       </View>

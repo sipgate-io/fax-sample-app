@@ -5,7 +5,7 @@ import {Buffer} from 'buffer';
 
 import DocumentPicker from 'react-native-document-picker';
 import * as RNFS from 'react-native-fs';
-import {fileIcon} from '../assets/icons';
+import {fileIcon} from '../../assets/icons';
 
 export interface PickedFile {
   name: string;

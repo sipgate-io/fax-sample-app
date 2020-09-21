@@ -8,7 +8,7 @@ import {
   HistoryEntryType,
   FaxStatusType,
 } from 'sipgateio';
-import {contactsIcon} from '../assets/icons';
+import {contactsIcon} from '../../assets/icons';
 
 interface Props {
   client: SipgateIOClient;

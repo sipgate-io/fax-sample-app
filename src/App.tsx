@@ -10,7 +10,7 @@ import {BackgroundImage} from './components/BackgroundImage';
 import {SipgateIOClient, sipgateIO} from 'sipgateio/dist/core';
 import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
 import AppHeader from './components/AppHeader';
-import {sipgateIOPattern} from './assets/images';
+import {sipgateIOPattern} from '../assets/images';
 
 export enum ActivePage {
   MAIN,

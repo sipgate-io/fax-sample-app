@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
-import Button from '../components/Button';
+import Button from './Button';
 import {ActivePage} from '../App';
-import {sipgateIOLogo} from '../assets/images';
+import {sipgateIOLogo} from '../../assets/images';
 
 interface Props {
   activePage: ActivePage;

@@ -17,7 +17,11 @@ import {selectContact} from 'react-native-select-contact';
 import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
 import {FaxlineResponse} from '../App';
-import {contactsIcon, exclamationMarkIcon, successIcon} from '../assets/icons';
+import {
+  contactsIcon,
+  exclamationMarkIcon,
+  successIcon,
+} from '../../assets/icons';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
