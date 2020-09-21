@@ -116,18 +116,21 @@ export default function Main({client}: Props) {
 
   const pickContact = async () => {
     if (Platform.OS === 'ios') {
-      return getFaxnumberFromContactPicker();
+      return getFaxnumberFromContactPicker().catch(Alert.alert);
     }
 
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
       .then((status) => {
         if (status !== 'granted') {
+          Alert.alert(
+            "You can't select a contact since you denied the permission.",
+          );
           return;
         }
 
-        getFaxnumberFromContactPicker();
+        return getFaxnumberFromContactPicker();
       })
-      .catch(console.error);
+      .catch(Alert.alert);
   };
 
   const getFaxnumberFromContactPicker = () => {
