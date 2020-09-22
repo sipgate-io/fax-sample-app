@@ -91,7 +91,8 @@ export default function Main({client}: Props) {
   const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
   useEffect(() => {
-    getUserFaxlines(client).then(setFaxlines).catch(Alert.alert);
+    getUserFaxlines(client).then(setFaxlines)
+      .catch((error) => Alert.alert('Error', 'An error occurred while fetching the available fax lines!'));
   }, []);
 
   const submit = async () => {
@@ -116,21 +117,20 @@ export default function Main({client}: Props) {
 
   const pickContact = async () => {
     if (Platform.OS === 'ios') {
-      return getFaxnumberFromContactPicker().catch(Alert.alert);
+      return getFaxnumberFromContactPicker();
     }
 
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
       .then((status) => {
         if (status !== 'granted') {
           Alert.alert(
-            "You can't select a contact since you denied the permission.",
+            'You can\'t select a contact since you denied the permission.',
           );
           return;
         }
 
         return getFaxnumberFromContactPicker();
-      })
-      .catch(Alert.alert);
+      });
   };
 
   const getFaxnumberFromContactPicker = () => {

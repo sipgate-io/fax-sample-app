@@ -90,7 +90,6 @@ export default function History({client}: Props) {
     setRefreshing(true);
 
     fetchFaxHistoryEntries()
-      .catch(Alert.alert)
       .finally(() => setRefreshing(false));
   };
 
@@ -102,7 +101,8 @@ export default function History({client}: Props) {
       })
       .then((historyEntries) => {
         setHistory([...historyEntries] as FaxHistoryEntry[]);
-      });
+      })
+      .catch((error) => Alert.alert('Error', 'An error occurred while fetching the fax history!'));
   }
 
   useEffect(() => {

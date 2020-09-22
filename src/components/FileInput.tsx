@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
 
 import {Buffer} from 'buffer';
 
@@ -37,7 +37,7 @@ const FileChooser = ({file, onPress}: Props) => {
       })
       .catch((err) => {
         if (!DocumentPicker.isCancel(err)) {
-          console.error(err);
+          Alert.alert('Error', err.message);
         }
       });
   };
