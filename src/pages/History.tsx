@@ -101,7 +101,7 @@ export default function History({client}: Props) {
         directions: [HistoryDirection.OUTGOING],
       })
       .then((historyEntries) => {
-        setHistory([...historyEntries, ...historyEntries, ...historyEntries] as FaxHistoryEntry[]);
+        setHistory([...historyEntries] as FaxHistoryEntry[]);
       });
   }
 
