@@ -101,7 +101,7 @@ export default function History({client}: Props) {
         directions: [HistoryDirection.OUTGOING],
       })
       .then((historyEntries) => {
-        setHistory(historyEntries as FaxHistoryEntry[]);
+        setHistory([...historyEntries, ...historyEntries, ...historyEntries] as FaxHistoryEntry[]);
       });
   }
 
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   historyList: {
-    height: 300,
+    height: 350,
     marginTop: 8,
   },
   historyItem: {

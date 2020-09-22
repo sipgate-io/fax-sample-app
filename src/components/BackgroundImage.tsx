@@ -29,31 +29,27 @@ export const BackgroundImage = ({source, children, ...rest}: Props) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.children}>{children}</View>
       <Image
         style={[styles.image, {display: keyboardOpen ? 'none' : undefined}]}
         source={source}
         {...rest}
       />
-      <View style={styles.children}>{children}</View>
     </View>
   );
 };
 
-const imageAspectRatio = 415 / 235;
+const imageAspectRatio = 415 / 155;
 const scaledWidth = Dimensions.get('window').width;
 const scaledHeight = scaledWidth / imageAspectRatio;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     backgroundColor: 'white',
-    position: 'relative',
   },
   children: {
-    position: 'absolute',
-    top: 0,
     width: '100%',
     height: '100%',
   },
@@ -61,5 +57,7 @@ const styles = StyleSheet.create({
     width: scaledWidth,
     height: scaledHeight,
     resizeMode: 'contain',
+    position: 'absolute',
+    bottom: 0,
   },
 });
