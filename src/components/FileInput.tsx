@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    backgroundColor: 'white',
   },
   text: {
     fontSize: 16,

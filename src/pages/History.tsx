@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Alert, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, Image, StyleSheet, Text, View, useWindowDimensions} from 'react-native';
 import {
   SipgateIOClient,
   FaxHistoryEntry,
@@ -61,7 +61,7 @@ function renderHistoryItem(item: FaxHistoryEntry) {
   return (
     <View style={styles.historyItem}>
       <View style={styles.historyItemLeft}>
-        <Text style={styles.historyItemRecipient}>To: {target}</Text>
+        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.historyItemRecipient}>To: {target}</Text>
         <Text style={styles.historyItemCreatedDate}>{sentDate}</Text>
       </View>
       <View style={styles.historyItemRight}>
@@ -81,6 +81,7 @@ function renderHistoryItem(item: FaxHistoryEntry) {
 }
 
 export default function History({client}: Props) {
+  const dimensions = useWindowDimensions();
   const [history, setHistory] = useState<FaxHistoryEntry[]>();
   const historyModule = useMemo(() => createHistoryModule(client), [client]);
 
@@ -113,7 +114,7 @@ export default function History({client}: Props) {
     <View style={styles.container}>
       <Text style={styles.title}>Fax History</Text>
       <FlatList
-        style={styles.historyList}
+        style={[styles.historyList, {height: dimensions.height /2 }]}
         refreshing={refreshing}
         onRefresh={onRefresh}
         data={history}
@@ -144,7 +145,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   historyList: {
-    height: 350,
     marginTop: 8,
   },
   historyItem: {
@@ -159,10 +159,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
+    flexShrink: 1,
   },
   historyItemRecipient: {
     fontWeight: 'bold',
     fontSize: 16,
+    flex: 1,
   },
   historyItemCreatedDate: {
     fontSize: 10,
@@ -172,6 +174,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 10,
   },
   faxStatusIndicator: {
     display: 'flex',
