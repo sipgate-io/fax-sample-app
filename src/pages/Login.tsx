@@ -61,7 +61,7 @@ export default function Login({login}: Props) {
       />
       <Input
         style={styles.input}
-        placeholder="Passwort"
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
         error={errorMessage !== null}
