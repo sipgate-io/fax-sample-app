@@ -165,7 +165,7 @@ export default function Main({client}: Props) {
       <View style={styles.input}>
         <Input
           keyboardType="phone-pad"
-          placeholder="Faxnummer"
+          placeholder="Fax number"
           onChangeText={(text) => {
             setFaxStatus(undefined);
             setRecipient(text);
