@@ -46,7 +46,7 @@ const FileChooser = ({file, onPress}: Props) => {
     <TouchableOpacity onPress={onPressInner} style={styles.touchable}>
       <Image style={styles.img} source={fileIcon} />
       <Text numberOfLines={1} style={styles.text}>
-        {file ? file.name : 'Datei auswählen'}
+        {file ? file.name : 'Select File'}
       </Text>
     </TouchableOpacity>
   );

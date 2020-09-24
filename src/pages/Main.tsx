@@ -194,13 +194,13 @@ export default function Main({client}: Props) {
       <View style={styles.buttons}>
         <FileInput
           onPress={(newFile) => {
-            setStatusMessage(undefined);
+            setFaxStatus(undefined);
             setFile(newFile);
           }}
           file={file}
         />
         <SubmitButton
-          title="Senden"
+          title="Send"
           style={{marginTop: 16}}
           loading={isLoading}
           disabled={!file || !recipient || isLoading || !faxline}
