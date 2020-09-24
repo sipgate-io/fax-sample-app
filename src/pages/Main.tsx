@@ -53,22 +53,15 @@ interface Props {
   client: SipgateIOClient;
 }
 
-interface StatusMessage {
-  status: SendFaxStatus;
-  message?: string;
-}
-
 enum SendFaxStatus {
   SUCCESS,
   ERROR,
 }
 
-function getStatusMessageDisplayText(statusMessage: StatusMessage): string {
-  return statusMessage.status === SendFaxStatus.SUCCESS
+function getStatusMessageDisplayText(status: SendFaxStatus): string {
+  return status === SendFaxStatus.SUCCESS
     ? 'Your fax has been queued.'
-    : statusMessage.status === SendFaxStatus.ERROR
-    ? 'Something went wrong.'
-    : undefined;
+    : 'Something went wrong.';
 }
 
 function sanitizePhoneNumber(phoneNumber: string): string {
@@ -83,7 +76,7 @@ export default function Main({client}: Props) {
   const [faxlines, setFaxlines] = useState<Faxline[]>([]);
   const [faxline, setFaxline] = useState<string>('');
 
-  const [statusMessage, setStatusMessage] = useState<StatusMessage>();
+  const [faxStatus, setFaxStatus] = useState<SendFaxStatus>();
 
   useEffect(() => {
     getUserFaxlines(client)
@@ -108,11 +101,9 @@ export default function Main({client}: Props) {
     await sendFax(client, fax)
       .then(() => {
         setFile(undefined);
-        setStatusMessage({status: SendFaxStatus.SUCCESS});
+        setFaxStatus(SendFaxStatus.SUCCESS);
       })
-      .catch((error) =>
-        setStatusMessage({status: SendFaxStatus.ERROR, message: error.message}),
-      )
+      .catch((error) => setFaxStatus(SendFaxStatus.ERROR))
       .finally(() => setIsLoading(false));
   };
 
@@ -148,15 +139,15 @@ export default function Main({client}: Props) {
         setRecipient(undefined);
         return;
       }
-      setStatusMessage(undefined);
+      setFaxStatus(undefined);
       setRecipient(firstFaxNumber.number);
     });
   };
 
   const messageImage =
-    statusMessage?.status === SendFaxStatus.SUCCESS
+    faxStatus === SendFaxStatus.SUCCESS
       ? successIcon
-      : statusMessage?.status === SendFaxStatus.ERROR
+      : faxStatus === SendFaxStatus.ERROR
       ? exclamationMarkIcon
       : undefined;
 
@@ -176,7 +167,7 @@ export default function Main({client}: Props) {
           keyboardType="phone-pad"
           placeholder="Faxnummer"
           onChangeText={(text) => {
-            setStatusMessage(undefined);
+            setFaxStatus(undefined);
             setRecipient(text);
           }}
           value={recipient}
@@ -211,13 +202,13 @@ export default function Main({client}: Props) {
           <Text
             style={{
               color:
-                statusMessage?.status === SendFaxStatus.ERROR
+                faxStatus === SendFaxStatus.ERROR
                   ? 'red'
-                  : statusMessage?.status === SendFaxStatus.SUCCESS
+                  : faxStatus === SendFaxStatus.SUCCESS
                   ? 'green'
                   : undefined,
             }}>
-            {statusMessage && getStatusMessageDisplayText(statusMessage)}
+            {faxStatus != undefined && getStatusMessageDisplayText(faxStatus)}
           </Text>
         </View>
       </View>
