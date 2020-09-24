@@ -64,16 +64,11 @@ enum SendFaxStatus {
 }
 
 function getStatusMessageDisplayText(statusMessage: StatusMessage): string {
-  const defaultMessage =
-    statusMessage.status === SendFaxStatus.SUCCESS
-      ? 'Your fax has been queued'
-      : statusMessage.status === SendFaxStatus.ERROR
-      ? 'Something went wrong'
-      : undefined;
-
-  return statusMessage.message
-    ? `${defaultMessage}: ${statusMessage.message}`
-    : `${defaultMessage}.`;
+  return statusMessage.status === SendFaxStatus.SUCCESS
+    ? 'Your fax has been queued.'
+    : statusMessage.status === SendFaxStatus.ERROR
+    ? 'Something went wrong.'
+    : undefined;
 }
 
 function sanitizePhoneNumber(phoneNumber: string): string {
