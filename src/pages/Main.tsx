@@ -21,7 +21,6 @@ import {
   exclamationMarkIcon,
   successIcon,
 } from '../../assets/icons';
-import {getAuthenticatedWebuser} from 'sipgateio/dist/core/helpers/authorizationInfo';
 
 export interface Faxline {
   id: string;
@@ -38,7 +37,7 @@ interface FaxlinesResponse {
 export async function getUserFaxlines(
   client: SipgateIOClient,
 ): Promise<Faxline[]> {
-  const webuserId = await getAuthenticatedWebuser(client);
+  const webuserId = await client.getAuthenticatedWebuserId();
   return await client
     .get<FaxlinesResponse>(`${webuserId}/faxlines`)
     .then((response) => response.items);
@@ -81,7 +80,7 @@ export default function Main({client}: Props) {
   useEffect(() => {
     getUserFaxlines(client)
       .then(setFaxlines)
-      .catch((error) =>
+      .catch(() =>
         Alert.alert(
           'Error',
           'An error occurred while fetching the available fax lines!',
@@ -103,7 +102,7 @@ export default function Main({client}: Props) {
         setFile(undefined);
         setFaxStatus(SendFaxStatus.SUCCESS);
       })
-      .catch((error) => setFaxStatus(SendFaxStatus.ERROR))
+      .catch(() => setFaxStatus(SendFaxStatus.ERROR))
       .finally(() => setIsLoading(false));
   };
 

@@ -3,7 +3,7 @@ import {Text, StyleSheet, View, Image} from 'react-native';
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 
-import {sipgateIO, createSettingsModule} from 'sipgateio';
+import {sipgateIO} from 'sipgateio';
 import {exclamationMarkIcon} from '../../assets/icons';
 
 async function attemptLogin(username: string, password: string) {
@@ -11,8 +11,7 @@ async function attemptLogin(username: string, password: string) {
     username,
     password,
   });
-  const settings = createSettingsModule(sipgateio);
-  await settings.getWebhookSettings();
+  await sipgateio.getAuthenticatedWebuserId();
 }
 
 interface Props {
