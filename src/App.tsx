@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import History from './pages/History';
 
 import {BackgroundImage} from './components/BackgroundImage';
-import {SipgateIOClient, sipgateIO} from 'sipgateio/dist/core';
+import {SipgateIOClient, sipgateIO} from 'sipgateio';
 import AppHeader from './components/AppHeader';
 import {sipgateIOPattern} from '../assets/images';
 

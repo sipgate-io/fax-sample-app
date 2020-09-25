@@ -12,36 +12,14 @@ import {
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
-import {createFaxModule, Fax} from 'sipgateio';
+import {SipgateIOClient, createFaxModule, Fax, Faxline} from 'sipgateio';
 import {selectContact} from 'react-native-select-contact';
-import {SipgateIOClient} from 'sipgateio/dist/core';
 import DropDown from '../components/DropDown';
 import {
   contactsIcon,
   exclamationMarkIcon,
   successIcon,
 } from '../../assets/icons';
-
-export interface Faxline {
-  id: string;
-  alias: string;
-  tagline: string;
-  canSend: boolean;
-  canReceive: boolean;
-}
-
-interface FaxlinesResponse {
-  items: Faxline[];
-}
-
-export async function getUserFaxlines(
-  client: SipgateIOClient,
-): Promise<Faxline[]> {
-  const webuserId = await client.getAuthenticatedWebuserId();
-  return await client
-    .get<FaxlinesResponse>(`${webuserId}/faxlines`)
-    .then((response) => response.items);
-}
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -78,7 +56,9 @@ export default function Main({client}: Props) {
   const [faxStatus, setFaxStatus] = useState<SendFaxStatus>();
 
   useEffect(() => {
-    getUserFaxlines(client)
+    const faxModule = createFaxModule(client);
+    faxModule
+      .getFaxlines()
       .then(setFaxlines)
       .catch(() =>
         Alert.alert(
