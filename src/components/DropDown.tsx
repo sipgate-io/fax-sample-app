@@ -2,7 +2,6 @@ import React, {ReactText} from 'react';
 import {
   StyleSheet,
   Platform,
-  ActionSheetIOS,
   View,
   TouchableOpacity,
   Text,
@@ -27,39 +26,7 @@ const DropDown = (props: Props) => {
   const faxlineLabel = props.items.find((item) => item.value === props.selected)
     ?.label;
 
-  function renderIOSPicker() {
-    return (
-      <TouchableOpacity
-        style={styles.iosPicker}
-        onPress={() => {
-          const options = props.items.map((item) => item.label);
-          options.push('Cancel');
-          ActionSheetIOS.showActionSheetWithOptions(
-            {
-              options,
-              cancelButtonIndex: options.length - 1,
-            },
-            (buttonIndex) => {
-              if (buttonIndex === options.length - 1) {
-                return;
-              }
-              props.onChange(props.items[buttonIndex].value);
-            },
-          );
-        }}>
-        <Text
-          style={
-            !faxlineLabel
-              ? styles.iosPickerUnselectedText
-              : styles.iosPickerText
-          }>
-          {faxlineLabel || props.placeholder}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-
-  function renderAndroidPicker() {
+  function renderWebPicker() {
     const items = [{label: props.placeholder, value: ''}, ...props.items];
     return (
       <View style={styles.androidPicker}>
@@ -77,11 +44,7 @@ const DropDown = (props: Props) => {
     );
   }
 
-  return (
-    <View style={props.style}>
-      {Platform.OS === 'ios' ? renderIOSPicker() : renderAndroidPicker()}
-    </View>
-  );
+  return <View style={props.style}>{renderWebPicker()}</View>;
 };
 
 export default DropDown;
