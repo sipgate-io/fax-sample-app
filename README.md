@@ -1,10 +1,10 @@
-# Fax Example App
+# Fax example app
 
 This app demonstrates the fax sending capabilities of the [sipgateio](https://github.com/sipgate-io/sipgateio-node) library.
 
 ## Introduction
 
-You might think sending faxes is a bit outdated, and you might be right. But there still might be [reasons](https://faxauthority.com/why-is-faxing-still-used/) for you or your organization to use it. In our [fax app tutorial](HIER LINK_ZU_BLOG_POST), we show you how to build a state-of-the-art fax sending app which runs on both Android and iOS.
+You might think sending faxes is a bit outdated, and you might be right. But there still might be [reasons](https://faxauthority.com/why-is-faxing-still-used/) for you or your organization to use it. In our [fax app tutorial](link to blog post), we show you how to build a state-of-the-art fax sending app which runs on both Android and iOS.
 
 Additionally, this code presents an enhanced version of the app built in the tutorial by providing native contact selection and a history view.
 
@@ -31,7 +31,6 @@ npm run android
 
 # Execute app on iOS targets
 npm run ios
-
 ```
 
 Now you can change the code according to your requirements.
