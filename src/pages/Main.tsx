@@ -8,9 +8,14 @@ import {SipgateIOClient, createFaxModule, Fax, Faxline} from 'sipgateio';
 import DropDown from '../components/DropDown';
 import {exclamationMarkIcon, successIcon} from '../assets/icons';
 
-function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
+/*function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
   return faxModule.send(fax).then((res) => res.sessionId);
+
+}*/
+
+async function sendFax(_client: SipgateIOClient, _fax: Fax): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
 interface Props {

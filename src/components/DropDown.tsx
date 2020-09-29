@@ -23,6 +23,7 @@ const DropDown = (props: Props) => {
         isSearchable={false}
         options={props.items}
         placeholder={props.placeholder}
+        onChange={(item) => props.onChange((item as unknown) as string)}
       />
     </View>
   );
