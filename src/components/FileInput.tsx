@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 import {fileIcon} from '../assets/icons';
@@ -15,35 +15,34 @@ export interface Props {
   file?: PickedFile;
 }
 
-const FileChooser = ({file}: Props) => {
-  const onPressInner = async () => {
-    /*DocumentPicker.pick({
-      type: [DocumentPicker.types.pdf],
-    })
-      .then((res) => {
-        RNFS.readFile(res.uri, 'base64').then((fileAsBase64) => {
-          const buffer = new Buffer(fileAsBase64, 'base64');
-          onPress({
-            name: res.name,
-            size: res.size,
-            uri: res.uri,
-            buffer: buffer,
-          });
-        });
-      })
-      .catch((err) => {
-        if (!DocumentPicker.isCancel(err)) {
-          Alert.alert('Error', err.message);
-        }
-      });*/
-  };
+const FileChooser = ({file, onPress}: Props) => {
+  const fakeButton = useRef<HTMLInputElement>(null);
 
   return (
-    <TouchableOpacity onPress={onPressInner} style={styles.touchable}>
+    <TouchableOpacity
+      onPress={() => fakeButton.current?.click()}
+      style={styles.touchable}>
       <Image style={styles.img} source={fileIcon} />
       <Text numberOfLines={1} style={styles.text}>
         {file ? file.name : 'Select File'}
       </Text>
+      <input
+        onChange={async (event) => {
+          const files = event.target.files!;
+          const htmlFile = files[0]!;
+          const buffer = {} as Buffer; //;await htmlFile.arrayBuffer();
+          const file = {
+            name: htmlFile.name,
+            size: htmlFile.size,
+            uri: htmlFile.name,
+            buffer,
+          };
+          onPress(file);
+        }}
+        ref={fakeButton}
+        type="file"
+        style={{display: 'none'}}
+      />
     </TouchableOpacity>
   );
 };
