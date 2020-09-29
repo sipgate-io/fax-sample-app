@@ -1,9 +1,8 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import Button from './Button';
 import {ActivePage} from '../App';
-import {sipgateIOLogo} from '../../assets/images';
-import {historyIcon, logoutIcon, faxIcon} from '../../assets/icons';
+import {sipgateIOLogo} from '../assets/images';
+import {historyIcon, logoutIcon, faxIcon} from '../assets/icons';
 
 interface Props {
   activePage: ActivePage;

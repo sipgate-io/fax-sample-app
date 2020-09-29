@@ -8,7 +8,7 @@ import History from './pages/History';
 import {BackgroundImage} from './components/BackgroundImage';
 import {SipgateIOClient, sipgateIO} from 'sipgateio';
 import AppHeader from './components/AppHeader';
-import {sipgateIOPattern} from '../assets/images';
+import {sipgateIOPattern} from './assets/images';
 
 export enum ActivePage {
   MAIN,

@@ -4,7 +4,7 @@ import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 
 import {sipgateIO} from 'sipgateio';
-import {exclamationMarkIcon} from '../../assets/icons';
+import {exclamationMarkIcon} from '../assets/icons';
 
 async function attemptLogin(username: string, password: string) {
   const sipgateio = sipgateIO({

@@ -1,5 +1,13 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Alert, FlatList, Image, StyleSheet, Text, View, useWindowDimensions} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import {
   SipgateIOClient,
   FaxHistoryEntry,
@@ -15,7 +23,7 @@ import {
   scheduledIcon,
   sendingIcon,
   sentIcon,
-} from '../../assets/icons';
+} from '../assets/icons';
 
 interface Props {
   client: SipgateIOClient;
@@ -61,7 +69,12 @@ function renderHistoryItem(item: FaxHistoryEntry) {
   return (
     <View style={styles.historyItem}>
       <View style={styles.historyItemLeft}>
-        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.historyItemRecipient}>To: {target}</Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={styles.historyItemRecipient}>
+          To: {target}
+        </Text>
         <Text style={styles.historyItemCreatedDate}>{sentDate}</Text>
       </View>
       <View style={styles.historyItemRight}>
@@ -90,8 +103,7 @@ export default function History({client}: Props) {
   const onRefresh = async () => {
     setRefreshing(true);
 
-    fetchFaxHistoryEntries()
-      .finally(() => setRefreshing(false));
+    fetchFaxHistoryEntries().finally(() => setRefreshing(false));
   };
 
   function fetchFaxHistoryEntries(): Promise<void> {
@@ -103,7 +115,12 @@ export default function History({client}: Props) {
       .then((historyEntries) => {
         setHistory([...historyEntries] as FaxHistoryEntry[]);
       })
-      .catch((error) => Alert.alert('Error', 'An error occurred while fetching the fax history!'));
+      .catch((error) =>
+        Alert.alert(
+          'Error',
+          'An error occurred while fetching the fax history!',
+        ),
+      );
   }
 
   useEffect(() => {
@@ -114,7 +131,7 @@ export default function History({client}: Props) {
     <View style={styles.container}>
       <Text style={styles.title}>Fax History</Text>
       <FlatList
-        style={[styles.historyList, {height: dimensions.height /2 }]}
+        style={[styles.historyList, {height: dimensions.height / 2}]}
         refreshing={refreshing}
         onRefresh={onRefresh}
         data={history}

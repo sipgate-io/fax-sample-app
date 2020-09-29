@@ -6,11 +6,7 @@ import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
 import {SipgateIOClient, createFaxModule, Fax, Faxline} from 'sipgateio';
 import DropDown from '../components/DropDown';
-import {
-  contactsIcon,
-  exclamationMarkIcon,
-  successIcon,
-} from '../../assets/icons';
+import {contactsIcon, exclamationMarkIcon, successIcon} from '../assets/icons';
 
 function sendFax(client: SipgateIOClient, fax: Fax): Promise<string> {
   const faxModule = createFaxModule(client);
@@ -104,8 +100,6 @@ export default function Main({client}: Props) {
             setRecipient(text);
           }}
           value={recipient}
-          icon={contactsIcon}
-          onIconClick={pickContact}
         />
         <DropDown
           selected={faxline}

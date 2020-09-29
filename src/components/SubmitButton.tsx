@@ -9,7 +9,7 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import {loadingAnimation} from '../../assets/animations';
+import {loadingAnimation} from '../assets/animations';
 
 export interface Props {
   disabled?: boolean;
