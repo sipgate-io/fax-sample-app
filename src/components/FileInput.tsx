@@ -1,9 +1,6 @@
 import React from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
-import {Buffer} from 'buffer';
-
-import * as RNFS from 'react-native-fs';
 import {fileIcon} from '../assets/icons';
 
 export interface PickedFile {
@@ -18,7 +15,7 @@ export interface Props {
   file?: PickedFile;
 }
 
-const FileChooser = ({file, onPress}: Props) => {
+const FileChooser = ({file}: Props) => {
   const onPressInner = async () => {
     /*DocumentPicker.pick({
       type: [DocumentPicker.types.pdf],

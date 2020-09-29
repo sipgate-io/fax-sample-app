@@ -17,7 +17,6 @@ import {
   FaxStatusType,
 } from 'sipgateio';
 import {
-  contactsIcon,
   failedIcon,
   pendingIcon,
   scheduledIcon,
@@ -115,7 +114,7 @@ export default function History({client}: Props) {
       .then((historyEntries) => {
         setHistory([...historyEntries] as FaxHistoryEntry[]);
       })
-      .catch((error) =>
+      .catch(() =>
         Alert.alert(
           'Error',
           'An error occurred while fetching the fax history!',
