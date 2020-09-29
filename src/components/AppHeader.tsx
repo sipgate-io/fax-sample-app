@@ -57,7 +57,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   icon: {
+    width: 24,
     height: 24,
+    margin: 8,
     resizeMode: 'contain',
   },
   navigation: {

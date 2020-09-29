@@ -135,7 +135,7 @@ export default function Main({client}: Props) {
                   ? 'green'
                   : undefined,
             }}>
-            {faxStatus != undefined && getStatusMessageDisplayText(faxStatus)}
+            {faxStatus !== undefined && getStatusMessageDisplayText(faxStatus)}
           </Text>
         </View>
       </View>
