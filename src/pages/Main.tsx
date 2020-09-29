@@ -1,19 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-  PermissionsAndroid,
-  Image,
-  Platform,
-} from 'react-native';
+import {StyleSheet, Text, View, Alert, Image} from 'react-native';
 
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import FileInput, {PickedFile} from '../components/FileInput';
 import {SipgateIOClient, createFaxModule, Fax, Faxline} from 'sipgateio';
-import {selectContact} from 'react-native-select-contact';
 import DropDown from '../components/DropDown';
 import {
   contactsIcon,
@@ -84,43 +75,6 @@ export default function Main({client}: Props) {
       })
       .catch(() => setFaxStatus(SendFaxStatus.ERROR))
       .finally(() => setIsLoading(false));
-  };
-
-  const pickContact = async () => {
-    if (Platform.OS === 'ios') {
-      return getFaxnumberFromContactPicker();
-    }
-
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-    );
-    if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-      Alert.alert(
-        "You can't select a contact since you denied the permission.",
-      );
-      return;
-    }
-
-    return getFaxnumberFromContactPicker();
-  };
-
-  const getFaxnumberFromContactPicker = () => {
-    return selectContact().then((contact) => {
-      if (!contact) return;
-
-      const faxNumbers = contact.phones.filter((phone) =>
-        phone.type.toLowerCase().includes('fax'),
-      );
-      const firstFaxNumber = faxNumbers[0];
-
-      if (!firstFaxNumber) {
-        Alert.alert('No fax number belongs to this contact.');
-        setRecipient(undefined);
-        return;
-      }
-      setFaxStatus(undefined);
-      setRecipient(firstFaxNumber.number);
-    });
   };
 
   const messageImage =

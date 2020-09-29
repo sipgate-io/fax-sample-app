@@ -3,7 +3,6 @@ import {Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
 
 import {Buffer} from 'buffer';
 
-import DocumentPicker from 'react-native-document-picker';
 import * as RNFS from 'react-native-fs';
 import {fileIcon} from '../../assets/icons';
 
@@ -21,7 +20,7 @@ export interface Props {
 
 const FileChooser = ({file, onPress}: Props) => {
   const onPressInner = async () => {
-    DocumentPicker.pick({
+    /*DocumentPicker.pick({
       type: [DocumentPicker.types.pdf],
     })
       .then((res) => {
@@ -39,7 +38,7 @@ const FileChooser = ({file, onPress}: Props) => {
         if (!DocumentPicker.isCancel(err)) {
           Alert.alert('Error', err.message);
         }
-      });
+      });*/
   };
 
   return (

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {View, StatusBar, Platform, StyleSheet} from 'react-native';
-import * as Keychain from 'react-native-keychain';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
@@ -35,7 +34,7 @@ export default function App() {
   }, []);
 
   const retrieveLoginData = async () => {
-    const credentials = await Keychain.getGenericPassword();
+    const credentials = null; //await Keychain.getGenericPassword();
     if (credentials) {
       const client = sipgateIO(credentials);
       setClient(client);
@@ -49,13 +48,13 @@ export default function App() {
   const login = async (username: string, password: string) => {
     const credentials = {username, password};
     const client = sipgateIO(credentials);
-    await Keychain.setGenericPassword(username, password);
+    // await Keychain.setGenericPassword(username, password);
     setActivePage(ActivePage.MAIN);
     setClient(client);
   };
 
   const logout = async () => {
-    await Keychain.resetGenericPassword();
+    // await Keychain.resetGenericPassword();
     setActivePage(ActivePage.LOGIN);
     setClient(null);
   };

@@ -1,13 +1,5 @@
 import React, {ReactText} from 'react';
-import {
-  StyleSheet,
-  Platform,
-  View,
-  TouchableOpacity,
-  Text,
-  ViewStyle,
-} from 'react-native';
-import {Picker} from '@react-native-community/picker';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 
 interface DropDownItem {
   label: string;
@@ -23,14 +15,11 @@ interface Props {
 }
 
 const DropDown = (props: Props) => {
-  const faxlineLabel = props.items.find((item) => item.value === props.selected)
-    ?.label;
-
   function renderWebPicker() {
     const items = [{label: props.placeholder, value: ''}, ...props.items];
     return (
       <View style={styles.androidPicker}>
-        <Picker
+        {/*<Picker
           style={styles.androidPickerText}
           selectedValue={props.selected}
           onValueChange={(value: ReactText) => props.onChange(String(value))}>
@@ -39,7 +28,12 @@ const DropDown = (props: Props) => {
               <Picker.Item label={item.label} value={item.value} key={index} />
             );
           })}
-        </Picker>
+        </Picker>*/}
+        <select>
+          {items.map((item, index) => {
+            return <option label={item.label} value={item.value} key={index} />;
+          })}
+        </select>
       </View>
     );
   }
