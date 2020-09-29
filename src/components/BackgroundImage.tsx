@@ -1,40 +1,14 @@
-import React, {PropsWithChildren, useEffect, useState} from 'react';
+import React, {PropsWithChildren} from 'react';
 
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  Image,
-  ImageProps,
-  Keyboard,
-} from 'react-native';
+import {StyleSheet, Dimensions, View, Image, ImageProps} from 'react-native';
 
 type Props = PropsWithChildren<ImageProps>;
 
 export const BackgroundImage = ({source, children, ...rest}: Props) => {
-  const [keyboardOpen, setKeyboardOpen] = useState(false);
-
-  useEffect(() => {
-    const didShow = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardOpen(true);
-    });
-    const didHide = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardOpen(false);
-    });
-    return () => {
-      didShow.remove();
-      didHide.remove();
-    };
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Image
-        style={[styles.image, {display: keyboardOpen ? 'none' : undefined}]}
-        source={source}
-        {...rest}
-      />
-      <View style={styles.children}>{children}</View>
+      <View>{children}</View>
+      <Image style={styles.image} source={source} {...rest} />
     </View>
   );
 };
@@ -45,20 +19,12 @@ const scaledHeight = scaledWidth / imageAspectRatio;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100vh',
     display: 'flex',
-    justifyContent: 'flex-end',
-    backgroundColor: 'white',
-    position: 'relative',
-  },
-  children: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    height: '100%',
+    justifyContent: 'space-between',
   },
   image: {
-    width: scaledWidth,
+    width: '100%',
     height: scaledHeight,
     resizeMode: 'contain',
   },
