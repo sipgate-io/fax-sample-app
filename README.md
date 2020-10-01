@@ -18,6 +18,7 @@ After cloning the repository, fire up your shell and install the dependencies us
 
 ```sh
 git clone https://github.com/sipgate-io/fax-sample-app
+cd fax-sample-app/
 npm install
 ```
 
