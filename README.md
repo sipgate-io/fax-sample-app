@@ -4,7 +4,7 @@ This app demonstrates the fax sending capabilities of the [sipgateio](https://gi
 
 ## Introduction
 
-You might think sending faxes is a bit outdated, and you might be right. But there still might be [reasons](https://faxauthority.com/why-is-faxing-still-used/) for you or your organization to use it. In our [fax app tutorial](link to blog post), we show you how to build a state-of-the-art fax sending app which runs on both Android and iOS.
+You might think sending faxes is a bit outdated, and you might be right. But there still might be [reasons](https://faxauthority.com/why-is-faxing-still-used/) for you or your organization to use it. In our [fax app tutorial](https://www.sipgate.io/blog/fax-app), we show you how to build a state-of-the-art fax sending app which runs on both Android and iOS.
 
 Additionally, this code presents an enhanced version of the app built in the tutorial by providing native contact selection and a history view.
 
