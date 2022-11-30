@@ -18,7 +18,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-keychain": "^6.2.0",
     "react-native-select-contact": "^1.5.0",
-    "sipgateio": "^2.0.0"
+    "sipgateio": "^2.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
