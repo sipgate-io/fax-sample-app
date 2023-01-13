@@ -1,6 +1,6 @@
 {
   "name": "main",
-  "displayName": "faxapp",
+  "displayName": "Fax Demo",
   "android": {
     "package": "com.anonymous.faxapp"
   },
