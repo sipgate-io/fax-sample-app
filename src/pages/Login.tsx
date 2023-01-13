@@ -6,10 +6,10 @@ import SubmitButton from '../components/SubmitButton';
 import {sipgateIO} from 'sipgateio';
 import {exclamationMarkIcon} from '../../assets/icons';
 
-async function attemptLogin(username: string, password: string) {
+async function attemptLogin(tokenId: string, token: string) {
   const sipgateio = sipgateIO({
-    username,
-    password,
+    token,
+    tokenId,
   });
   await sipgateio.getAuthenticatedWebuserId();
 }
@@ -19,16 +19,16 @@ interface Props {
 }
 
 export default function Login({login}: Props) {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [tokenId, setTokenId] = useState<string>('');
+  const [token, setToken] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const submit = () => {
     setIsLoading(true);
-    attemptLogin(username, password)
-      .then(() => login(username, password))
+    attemptLogin(tokenId, token)
+      .then(() => login(tokenId, token))
       .catch(setError)
       .finally(() => setIsLoading(false));
   };
@@ -36,8 +36,6 @@ export default function Login({login}: Props) {
   const setError = (error: Error) => {
     if (error.message === 'Unauthorized') {
       setErrorMessage('There is no sipgate account with these credentials.');
-    } else if (error.message.startsWith('Invalid email')) {
-      setErrorMessage('This email is invalid.');
     } else {
       setErrorMessage('Ups. An error occurred: ' + error.message);
     }
@@ -47,25 +45,25 @@ export default function Login({login}: Props) {
     <View>
       <Text style={styles.header}>Log in</Text>
       <Text style={styles.description}>
-        Log in to your sipgate basic, simquadrat or sipgate team account.
+        Log in with your sipgate Personal-Access-Token.
       </Text>
 
       <Input
         style={styles.input}
-        placeholder="E-Mail"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Token-ID"
+        value={tokenId}
+        onChangeText={setTokenId}
         error={errorMessage !== null}
-        autoCompleteType="username"
+        autoCompleteType="off"
       />
       <Input
         style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
+        placeholder="Token"
+        value={token}
+        onChangeText={setToken}
         error={errorMessage !== null}
         secureTextEntry
-        autoCompleteType="password"
+        autoCompleteType="off"
       />
       <View style={styles.errorTextContainer}>
         {errorMessage ? (
@@ -79,7 +77,7 @@ export default function Login({login}: Props) {
           onPress={submit}
           title="Login"
           loading={isLoading}
-          disabled={username === '' || password === '' || isLoading}
+          disabled={tokenId === '' || token === '' || isLoading}
         />
       </View>
     </View>

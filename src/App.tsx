@@ -37,7 +37,10 @@ export default function App() {
   const retrieveLoginData = async () => {
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
-      const client = sipgateIO(credentials);
+      const client = sipgateIO({
+        tokenId: credentials.username,
+        token: credentials.password,
+      });
       setClient(client);
       setActivePage(ActivePage.MAIN);
     } else {
@@ -46,10 +49,10 @@ export default function App() {
     }
   };
 
-  const login = async (username: string, password: string) => {
-    const credentials = {username, password};
+  const login = async (tokenId: string, token: string) => {
+    const credentials = {tokenId, token};
     const client = sipgateIO(credentials);
-    await Keychain.setGenericPassword(username, password);
+    await Keychain.setGenericPassword(tokenId, token);
     setActivePage(ActivePage.MAIN);
     setClient(client);
   };
