@@ -1,4 +1,10 @@
 {
-  "name": "faxapp",
-  "displayName": "faxapp"
+  "name": "main",
+  "displayName": "faxapp",
+  "android": {
+    "package": "com.anonymous.faxapp"
+  },
+  "ios": {
+    "bundleIdentifier": "com.anonymous.faxapp"
+  }
 }

@@ -8,7 +8,7 @@ import {
   Text,
   ViewStyle,
 } from 'react-native';
-import {Picker} from '@react-native-community/picker';
+import {Picker} from '@react-native-picker/picker';
 
 interface DropDownItem {
   label: string;
@@ -24,8 +24,9 @@ interface Props {
 }
 
 const DropDown = (props: Props) => {
-  const faxlineLabel = props.items.find((item) => item.value === props.selected)
-    ?.label;
+  const faxlineLabel = props.items.find(
+    (item) => item.value === props.selected,
+  )?.label;
 
   function renderIOSPicker() {
     return (
